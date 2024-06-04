@@ -1,0 +1,15 @@
+body[b-nrhpz8e80f] {
+}
+.exercise-main[b-nrhpz8e80f]{
+    display:flex;
+    flex-direction:column;
+}
+.exercise-midle-content[b-nrhpz8e80f] {
+    display: flex;
+    flex-direction: row;
+}
+.video-block[b-nrhpz8e80f] {
+    background-color: black;
+    width: 80%;
+    height: 55vh;
+}

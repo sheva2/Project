@@ -1,0 +1,79 @@
+body[b-vgg0cptadr] {
+}
+.user-info-form[b-vgg0cptadr]{
+    display:flex;
+    flex-direction:row;
+}
+.user-info-form input[b-vgg0cptadr] {
+        display: block;
+
+}
+.image-block[b-vgg0cptadr] {
+    display: flex;
+    flex-direction: column;
+}
+.avatar-image[b-vgg0cptadr] {
+    width: 14vw;
+    height: 25vh;
+    border-radius: 50%;
+    margin-bottom:2vh;
+}
+.form-first_block[b-vgg0cptadr] {
+    display: flex;
+    flex-direction: column;
+}
+.form-second_block[b-vgg0cptadr] {
+    display: flex;
+    flex-direction: column;
+    margin-left:2vw;
+    margin-top:0vh;
+}
+input[b-vgg0cptadr]{
+    margin-bottom:2vh;
+}
+.save-btn[b-vgg0cptadr] {
+    display: block;
+    margin-top:10vh;
+    margin-left: 9vw;
+    width: 14.412vw;
+    height: 4.16vh;
+    border: 1px solid gray;
+    background-color: black;
+    transition-property: color border-radius;
+    transition-duration: 1s;
+    color: gray;
+}
+
+    .save-btn:hover[b-vgg0cptadr] {
+        color: white;
+        border-radius: 8px;
+    }
+@media (min-width:319px) and (max-width:430px) {
+    .user-info-form[b-vgg0cptadr] {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+    }
+    .save-btn[b-vgg0cptadr] {
+        display: block;
+        margin-left: 2.2vw;
+        width: 85vw;
+        height: 4.16vh;
+        border: 1px solid gray;
+        background-color: black;
+        transition-property: color border-radius;
+        transition-duration: 1s;
+        color: gray;
+    }
+    .user-info-form input[b-vgg0cptadr] {
+        display: block;
+        width: 90vw;
+        margin-left:5vw;
+    }
+    .form-second_block[b-vgg0cptadr] {
+        display: flex;
+        flex-direction: column;
+        margin-left: 0vw;
+        margin-top: 1vh;
+    }
+}

@@ -1,0 +1,111 @@
+﻿@page "/ExerciseSessionCreate/{trainingSessionId:int}"
+@page "/ExerciseSessionCreate/{trainingSessionId:int}/{exerciseId:int}"
+@inject NavigationManager Navigation
+@using Project.Data;
+
+<h3>TrainingSessionCreate</h3>
+<div class="sesion-create-window">
+    <div class="esercise-name">
+        @if (exerciseId == 0)
+        {
+            <input type="button" value="Select" @onclick="SelectExercise"/>
+        }
+        else
+        {
+            <input type="button" value="@exercise.Name" @onclick="GoToExercise" />
+        }
+        <input class="cancel" value="X" type="button"/>
+    </div>
+    <input placeholder="кол-во" @bind="serie.Num"/>
+    <input placeholder="Вреия отдыха" @bind="serie.TimeOfBreak" />
+    <input placeholder="вес" @bind="serie.Weight"/>
+    <input type="button" value="Добавить" @onclick="click" />
+</div>
+<div class="sessions-list">
+    <table>
+        <tr>
+            <th>Кол-во</th>
+            <th>Времяотдыха</th>
+            <th>Вес отягощения</th>
+        </tr>
+        
+   @foreach(Series s in list){
+        <tr>
+            <td>@s.Num</td>
+            <td>@s.TimeOfBreak'</td>
+                @if (s.Weight != 0)
+                {
+                    <td>@s.Weight</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+            </tr>   
+   }
+   </table>
+</div>
+@code {
+    [Parameter]
+    public int trainingSessionId{ get; set; }
+
+    [Parameter]
+    public int exerciseId { get; set; } = 0;
+    private Series serie;
+    private List<Series> list;
+    private Exercise exercise;
+    protected override void OnInitialized()
+    {
+        serie = new Series();
+        List<QueryParametr> prams=new List<QueryParametr>(); 
+        List<ExerciseTrainingSession> ets = DBRequest.Select<ExerciseTrainingSession>("ExerciseTrainingSession", new List<QueryParametr> { new QueryParametr($"[SessionId]={trainingSessionId}", Operator.NONE) });
+        if (ets.Count != 0)
+        {
+            foreach (ExerciseTrainingSession e in ets)
+            {
+                prams.Add(new QueryParametr($"[ExerciseSessionId]={e.Id}", Operator.OR));
+            }
+            prams[prams.Count - 1].Operator = Operator.NONE;
+            list = DBRequest.Select<Series>("Series", prams);
+        }
+        else
+        {
+            list = new List<Series>();
+        }
+        if (exerciseId != 0)
+        {
+            exercise = DBRequest.Select<Exercise>("Exercises", new List<QueryParametr> { new QueryParametr($"[Id]={exerciseId}", Operator.NONE) })[0];
+        }
+    }
+    private void click()
+    {
+        if (exerciseId != 0)
+        {
+            ExerciseTrainingSession ets = new ExerciseTrainingSession();
+            ets.SessionId = trainingSessionId;
+            ets.ExerciseId = exerciseId;
+            if (serie.Num != 0 && serie.TimeOfBreak != 0)
+            {
+                int id = DBRequest.Insert("ExerciseTrainingSession", ets, true);
+                serie.ExerciseSessionId = id;
+                DBRequest.Insert("Series", serie);
+            }
+            OnInitialized();
+        }
+
+    }
+    public void SelectExercise()
+    {
+        Navigation.NavigateTo($"exercises/{trainingSessionId}");
+
+    }
+    public void GoToExercise()
+    {
+        Navigation.NavigateTo($"exercises/{exercise.Id}");
+    }
+    public void cancel()
+    {
+        exerciseId = 0;
+        
+    }
+}

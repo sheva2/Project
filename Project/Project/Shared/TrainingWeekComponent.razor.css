@@ -1,0 +1,7 @@
+﻿.WeekComponent {
+    width: 5vw;
+    height: 8vh;
+    background-color: lightgray;
+    border:1px solid black; 
+    cursor:pointer;
+}

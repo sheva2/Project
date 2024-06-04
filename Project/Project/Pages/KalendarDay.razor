@@ -1,0 +1,21 @@
+﻿@using Project.Data;
+@page "/KalendarDays/{weekId:int}"
+@page "/KalendarDays/{weekId:int}/{key:bool}"
+<div class="days-block">
+@foreach (TrainingDay td in days)
+{
+    <TrainingDayComponent dayId="@td.Id" key="@key"></TrainingDayComponent>
+}
+
+</div>
+@code {
+    [Parameter]
+    public int weekId{ get; set; }
+    [Parameter]
+    public bool key { get; set; }
+    private List<TrainingDay> days;
+    protected override void OnInitialized()
+    {
+        days = DBRequest.Select<TrainingDay>("TrainingDays", new List<QueryParametr> { new QueryParametr($"[TrainingWeekId]={weekId}", Operator.NONE) });
+    }
+}

@@ -1,0 +1,90 @@
+﻿@using Project.Data;
+@inject NavigationManager Navigation
+
+@if (isLast == 0)
+{
+    <div class="item">
+        <div class="item-content" @onclick="ItemClick">
+            <div class="item-img"><img class="item-img-img" src="Logos/@(getLogoPath())" /><span class="item-span">★@(countExerciseRating())</span></div>
+            <div class="item-text">@(getProgrammName())<br />@(getAuthorName())</div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="item_last" @onclick="ItemClick">
+        <div class="item-content">
+            <div class="item-img"><img class="item-img-img" src="Logos/@logoPath" /><span class="item-span">★@(countExerciseRating())</span></div>
+            <div class="item-text">@(getProgrammName())<br />@(getAuthorName())</div>
+        </div>
+    </div>
+
+}
+@code {
+    private void ItemClick()
+    {
+        Navigation.NavigateTo($"RedactProgramm/{id}");
+    }
+    [Parameter]
+    public string name { get; set; } = "Base Name";
+    [Parameter]
+    public int isLast { get; set; } = 0;
+    [Parameter]
+    public int id { get; set; }
+    public string author { get; set; } = "author";
+    [Parameter]
+    public TrainingProgramm programm{ get; set; }
+    string logoPath;
+    private double rating=0;
+
+    protected override void OnInitialized()
+    {
+        programm = DBRequest.Select<TrainingProgramm>("TrainingProgramms", new List<QueryParametr> { new QueryParametr($"[Id]={id}", Operator.NONE) })[0];
+        logoPath = DBRequest.Select<Logo>("Logo", new List<QueryParametr> { new QueryParametr($"[Id]={programm.LogoId}", Operator.NONE) })[0].PhotoLink;
+        getAuthorName();
+
+    }
+    private string getLogoPath()
+    {
+        string logoP;
+        TrainingProgramm programm2;
+        programm2 = DBRequest.Select<TrainingProgramm>("TrainingProgramms", new List<QueryParametr> { new QueryParametr($"[Id]={id}", Operator.NONE) })[0];
+        logoP = logoPath = DBRequest.Select<Logo>("Logo", new List<QueryParametr> { new QueryParametr($"[Id]={programm2.LogoId}", Operator.NONE) })[0].PhotoLink;
+        return logoP;
+    }
+    private string getProgrammName()
+    {
+        TrainingProgramm programm2;
+        programm2 = DBRequest.Select<TrainingProgramm>("TrainingProgramms", new List<QueryParametr> { new QueryParametr($"[Id]={id}", Operator.NONE) })[0];
+        return programm2.Name;
+    }
+    public string getAuthorName()
+    {
+        string authorName = "";
+        Coach coach = DBRequest.Select<Coach>("Coaches", new List<QueryParametr> { new QueryParametr($"[Id]={programm.CoachId}", Operator.NONE) })[0];
+        User user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={coach.UserId}", Operator.NONE) })[0];
+        author = user.Login;
+        return user.Login;
+    }
+    public double countExerciseRating()
+    {
+        double res = 0.0;
+        List<TrainingProgrammRating> list = DBRequest.Select<TrainingProgrammRating>("TrainingProgrammRating", new List<QueryParametr> { new QueryParametr($"[TrainingProgrammId]={programm.Id}", Operator.NONE) });
+
+
+        if (list.Count != 0)
+        {
+            foreach (TrainingProgrammRating re in list)
+            {
+                res += re.Rating;
+            }
+
+            rating = res / list.Count;
+            return res / list.Count;
+        }
+        else
+        {
+            return 0.0;
+        }
+    }
+}

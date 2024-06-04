@@ -1,0 +1,55 @@
+﻿@page "/Registration"
+@using Project.Data
+@inject RegistrationService registrationService
+@inject IJSRuntime JsRuntime
+@inject NavigationManager Navigation
+<form class="main-form-registration">
+    
+    <div class="form-main-content">
+        <div class="form-main-content-top">
+            <span class="form-main-content-top-text">Registration</span>
+        </div>
+        <input @onchange="LoginChanged" class="form-input" type="text" placeholder="Login" />
+        <input @onchange="EmailChanged" class="form-input" type="text" placeholder="Email" />
+        <input @onchange="PasswordChanged" class="form-input" type="password" placeholder="Password" />
+        <input @onchange="RepPassowrdChanged" class="form-input" type="password" placeholder="Repeat Password" />
+        <div class="form-bottom-btns">
+            <span class="authorization-btn" @onclick="ChangeToAuthorization"><b>Авторизация</b></span>
+            <input class="form-button" type="button" value="Submit" @onclick="RegUser"/>
+        </div>
+        
+    </div>
+</form>
+@code {
+    string login="";
+    string email = "";
+    string pass = "";
+    string repPass = "";
+    public async void ChangeToAuthorization()
+    {
+        Navigation.NavigateTo("Authorization");
+    }
+    public async void RegUser()
+    {
+        bool answer = registrationService.Registration(email, login, pass, repPass);
+        if (answer)
+            Navigation.NavigateTo("/userpage", true);
+    }
+    private async Task LoginChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        login = (string)patharg.Value;
+    }
+    private async Task EmailChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        email = (string)patharg.Value;
+        
+    }
+    private async Task PasswordChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        pass = (string)patharg.Value;
+    }
+    private async Task RepPassowrdChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        repPass = (string)patharg.Value;
+    }
+}

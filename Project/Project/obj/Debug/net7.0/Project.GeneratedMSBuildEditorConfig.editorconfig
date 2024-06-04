@@ -1,0 +1,173 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Project
+build_property.RootNamespace = Project
+build_property.ProjectDir = E:\desktop\ДЗ\Диплом\Project\Project\
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = E:\desktop\ДЗ\Диплом\Project\Project
+build_property._RazorSourceGeneratorDebug = 
+
+[E:/desktop/ДЗ/Диплом/Project/Project/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/ExerciseSessionCreate.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXhlcmNpc2VTZXNzaW9uQ3JlYXRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/FetchData.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/ReportComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFJlcG9ydENvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/TrainingSessionComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFRyYWluaW5nU2Vzc2lvbkNvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/desktop/ДЗ/Диплом/Project/Project/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/AuthorizationForm.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aG9yaXphdGlvbkZvcm0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-74w2s8u6wx
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/CreateProgrammForm.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JlYXRlUHJvZ3JhbW1Gb3JtLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-p639isj7d4
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/ExerciseCreatorForm.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXhlcmNpc2VDcmVhdG9yRm9ybS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-v8my622daz
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/ExercisePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXhlcmNpc2VQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-nrhpz8e80f
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/ExercisesList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXhlcmNpc2VzTGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-sopslnhkh3
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/KalendarDay.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcS2FsZW5kYXJEYXkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-h1ts7mi5qw
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/ProgrammList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZ3JhbW1MaXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-c1sfxfa6b8
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/ProgrammRedactForm.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZ3JhbW1SZWRhY3RGb3JtLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-yj2egsjdt6
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/RegistrationForm.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0cmF0aW9uRm9ybS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-jkfe5j2v43
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/ReportList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0TGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-nivzap8cia
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/TrainingSessiongCreator.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVHJhaW5pbmdTZXNzaW9uZ0NyZWF0b3IucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-2ikps3dt14
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/TrainingSessionRedactor.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVHJhaW5pbmdTZXNzaW9uUmVkYWN0b3IucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ru3t1o7sdj
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/UserPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-vgg0cptadr
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/UsersList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlcnNMaXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-zxzkrb6qji
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/WeekKalendar.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2Vla0thbGVuZGFyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-cr3k1s1k1n
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/CoachCardComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXENvYWNoQ2FyZENvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-kvbn84dxgc
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/ExerciseItemComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEV4ZXJjaXNlSXRlbUNvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-pf6ga6mle7
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/ExerciseRatingItem.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEV4ZXJjaXNlUmF0aW5nSXRlbS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-b572khwjkx
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/ExerciseRatingList.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEV4ZXJjaXNlUmF0aW5nTGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-5l83hpn5fl
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/HeaderComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEhlYWRlckNvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-w4135zen0g
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ajb5ewb1of
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-yldjx4wk48
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/ProgrammListComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFByb2dyYW1tTGlzdENvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-au4tgxvu03
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/ProgrammRatingComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFByb2dyYW1tUmF0aW5nQ29tcG9uZW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-zaii67alva
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/ReportListComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFJlcG9ydExpc3RDb21wb25lbnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-kh9xjirs2u
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/TrainingDayComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFRyYWluaW5nRGF5Q29tcG9uZW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-rhd9u6kv9r
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/TrainingWeekComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFRyYWluaW5nV2Vla0NvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-dj2ktttp6l
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Shared/UserItemComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFVzZXJJdGVtQ29tcG9uZW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-er74iar233
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/desktop/ДЗ/Диплом/Project/Project/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

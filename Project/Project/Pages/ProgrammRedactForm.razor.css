@@ -1,0 +1,21 @@
+﻿body {
+}
+.main-form{
+    display:flex;
+    flex-direction:column;
+}
+.description-input {
+    width: 20vw;
+    height: 30vh;
+    max-height: 30vh;
+    min-height: 30vh;
+    border:solid 1px black;
+}
+.name-input {
+    width: 20vw;
+}
+.coah_only-block{
+    display:flex;
+    flex-direction:column;
+    width:auto;
+}

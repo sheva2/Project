@@ -1,0 +1,29 @@
+.Inputs-block[b-2ikps3dt14]{
+    display:flex;
+    flex-direction:column;
+    width:20vw;
+
+}
+.duration-input[b-2ikps3dt14]{
+    display:block;
+    width:4vw;
+}
+.duration-block[b-2ikps3dt14]{
+    display:flex;
+    flex-direction:row;
+}
+.input-bottom-block[b-2ikps3dt14] {
+    display: flex;
+    flex-direction: row;
+}
+.exercises-list[b-2ikps3dt14]{
+    width:80%;
+    margin-left:10%;
+    border:1px solid black;
+}
+.add-exercise[b-2ikps3dt14] {
+    width: 80%;
+    margin-left: 10%;
+    border: 1px solid black;
+    height:15vh;
+}

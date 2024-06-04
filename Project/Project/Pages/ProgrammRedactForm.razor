@@ -1,0 +1,265 @@
+﻿@using Project.Data;
+@page "/RedactProgramm/{id:int}"
+@inject NavigationManager navigation
+@inject IWebHostEnvironment env
+<form class="main-form">
+    @if (key)
+    {
+        <div style="display:flex;flex-direction:row;">
+            <div style="display:flex;flex-direction:column;">
+                <input class="name-input"  placeholder="Название" @bind="trainingProgramm.Name" />
+                <textarea class="description-input" placeholder="Описание" @bind="trainingProgramm.Description" cols="40" rows="3" maxlength="500" />
+            </div>
+        <div style="display:flex;flex-direction:column;">
+            <div>
+                <input type="checkbox" @bind="trainingProgramm.IsVisible" />
+                <label>Видимость в общей библиотеке</label>
+            </div>
+        @if (trainingProgramm.IsVisible)
+        {
+            <div class="coah_only-block">
+                <div>
+                            <label>Уровень подготовки </label>
+                            <select style="float: right; display:block;" @bind="trainingProgramm.HardLevel">
+                    <option value="1">новичок</option>
+                    <option value="2">любитель</option>
+                    <option value="3">професионал</option>
+                </select>
+                        </div>
+                
+                    <div>
+                            <label>Длительность</label>
+                            <input style="float: right; display:block;width:6vw;" @bind="trainingProgramm.ProgrammDuration" />
+                        </div>
+            </div>
+        }
+            </div>
+        </div>
+        <InputFile OnChange="OnInputFileChange"></InputFile>
+        <input type="button" value="удалить" @onclick="delete"/>
+        <input type="button" value="сохранить" @onclick="save" />
+    }
+    else
+    {
+        <h2 class="name-input">@trainingProgramm.Name</h2>
+        <span>Описание</span>
+        <p class="description-input">@trainingProgramm.Description</p>
+        @if (trainingProgramm.IsVisible)
+        {
+            <div class="coah_only-block">
+                <label>Уровень подготовки </label>
+                @switch (trainingProgramm.HardLevel)
+                {
+                    case 1:
+                        break;
+                        <span>новичок</span>
+                        case 2:
+                        <span>любитель</span>
+                        break;
+                        case 3:
+                        <span>професионал</span>
+                        break;
+                }
+                
+                <label>Длительность</label>
+                <span >@trainingProgramm.ProgrammDuration</span>
+            </div>
+        }
+        
+    }
+</form>
+<div>
+    <WeekKalendar programmId="id" key="key"></WeekKalendar>
+</div>
+@if (!key)
+{
+    <ExerciseRatingList trainingProgrammId="@trainingProgramm.Id"></ExerciseRatingList>
+    <h4 @onclick="openReport">Пожаловаться</h4>
+    @if (reportShow)
+    {
+        <ReportComponent programmId="trainingProgramm.Id"></ReportComponent>
+        <input type="button" value="close" @onclick="closeReport"/>
+    }
+}
+@code {
+    [Parameter]
+    public int id { get; set; }
+    IReadOnlyList<IBrowserFile> selectedFiles;
+    TrainingProgramm trainingProgramm;
+    private User? user;
+    private Coach? coach;
+    bool reportShow=false;
+    bool key = false;
+    protected override void OnInitialized()
+    {
+        trainingProgramm = DBRequest.Select<TrainingProgramm>("TrainingProgramms", new List<QueryParametr> { new QueryParametr($"[Id]={id}", Operator.NONE) })[0];
+        coach = DBRequest.Select<Coach>("Coaches", new List<QueryParametr> { new QueryParametr($"[Id]={trainingProgramm.CoachId}", Operator.NONE) })[0];
+        user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={coach.UserId}", Operator.NONE) })[0];
+        if (user.Id == UserService.getInstance().CurentUser.Id)
+            key = true;
+        else
+            key = false;
+    }
+    private void click()
+    {
+        navigation.NavigateTo($"KalendarWeeks/{id}/{key}");
+    }
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        selectedFiles = e.GetMultipleFiles();
+        this.StateHasChanged();
+    }
+    private async void SaveImage()
+    {
+        int id = -1;
+        if (selectedFiles != null)
+        {
+            if (selectedFiles.Count != 0)
+            {
+
+
+                foreach (var file in selectedFiles)
+                {
+
+                    Stream stream = file.OpenReadStream();
+                    Logo avatar = new Logo();
+                    var path = $"{env.WebRootPath}\\Logos\\{user.Id}{file.Name}";
+                    FileStream fs = File.Create(path);
+                    avatar.PhotoLink = user.Id.ToString() + file.Name;
+                    id = DBRequest.Insert("Logo", avatar, true);
+
+                    await stream.CopyToAsync(fs);
+                    stream.Close();
+                    fs.Close();
+
+                }
+            }
+        }
+    }
+    private void delete(){
+        var weeksList = DBRequest.Select<TrainingWeek>("TrainingWeeks", new List<QueryParametr> { new QueryParametr($"[TrainigProgrammId]={trainingProgramm.Id}", Operator.NONE) });
+        List<TrainingDay> dayList;
+        List<TrainingSession> sesionList;
+        List<ExerciseTrainingSession> etsList;
+        List<Series> listSeries;
+        if (weeksList.Count != 0)
+        {
+            dayList = new List<TrainingDay>();
+            foreach (TrainingWeek tw in weeksList)
+            {
+                dayList.AddRange(DBRequest.Select<TrainingDay>("TrainingDays", new List<QueryParametr> { new QueryParametr($"[TrainingWeekId]={tw.Id}", Operator.NONE) }));
+            }
+            if (dayList.Count != 0)
+            {
+                sesionList = new List<TrainingSession>(); 
+                foreach (TrainingDay day in dayList)
+                {
+                    sesionList.AddRange(DBRequest.Select<TrainingSession>("TrainingSession", new List<QueryParametr> { new QueryParametr($"[TrainingDayId]={day.Id}", Operator.NONE) }));
+                }
+                if (sesionList.Count != 0)
+                {
+                    etsList = new List<ExerciseTrainingSession>();
+                    foreach(TrainingSession ts in sesionList)
+                    {
+                        etsList.AddRange(DBRequest.Select<ExerciseTrainingSession>("ExerciseTrainingSession", new List<QueryParametr> { new QueryParametr($"[SessionId]={ts.Id}", Operator.NONE) }));
+                    }
+                    if (etsList.Count!=0)
+                    {
+                        listSeries = new List<Series>();
+                        foreach(ExerciseTrainingSession ets in etsList ){
+                            listSeries.AddRange(DBRequest.Select<Series>("Series", new List<QueryParametr> { new QueryParametr($"[ExerciseSessionId]={ets.Id}", Operator.NONE) }));
+                        }
+                        if (listSeries.Count != 0)
+                        {
+                            foreach(Series s in listSeries)
+                            {
+                                DBRequest.Delete("Series", new List<QueryParametr> { new QueryParametr($"[Id]={s.Id}", Operator.NONE) });
+                            }
+                            foreach (ExerciseTrainingSession ets in etsList)
+                            {
+                                DBRequest.Delete("ExerciseTrainingSession", new List<QueryParametr> { new QueryParametr($"[Id]={ets.Id}", Operator.NONE) });
+                            }
+                            foreach (TrainingSession ts in sesionList)
+                            {
+                                DBRequest.Delete("TrainingSession", new List<QueryParametr> { new QueryParametr($"[Id]={ts.Id}", Operator.NONE) });
+                            }
+                            foreach (TrainingDay day in dayList)
+                            {
+                                DBRequest.Delete("TrainingDays", new List<QueryParametr> { new QueryParametr($"[Id]={day.Id}", Operator.NONE) });
+                            }
+                            foreach (TrainingWeek tw in weeksList)
+                            {
+                                DBRequest.Delete("TrainingWeeks", new List<QueryParametr> { new QueryParametr($"[Id]={tw.Id}", Operator.NONE) });
+                            }
+                        }
+                        else
+                        {
+                            foreach (ExerciseTrainingSession ets in etsList)
+                            {
+                                DBRequest.Delete("ExerciseTrainingSession", new List<QueryParametr> { new QueryParametr($"[Id]={ets.Id}", Operator.NONE) });
+                            }
+                            foreach (TrainingSession ts in sesionList)
+                            {
+                                DBRequest.Delete("TrainingSession", new List<QueryParametr> { new QueryParametr($"[Id]={ts.Id}", Operator.NONE) });
+                            }
+                            foreach (TrainingDay day in dayList)
+                            {
+                                DBRequest.Delete("TrainingDays", new List<QueryParametr> { new QueryParametr($"[Id]={day.Id}", Operator.NONE) });
+                            }
+                            foreach (TrainingWeek tw in weeksList)
+                            {
+                                DBRequest.Delete("TrainingWeeks", new List<QueryParametr> { new QueryParametr($"[Id]={tw.Id}", Operator.NONE) });
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        foreach (TrainingSession ts in sesionList)
+                        {
+                            DBRequest.Delete("TrainingSession", new List<QueryParametr> { new QueryParametr($"[Id]={ts.Id}", Operator.NONE) });
+                        }
+                        foreach (TrainingDay day in dayList)
+                        {
+                            DBRequest.Delete("TrainingDays", new List<QueryParametr> { new QueryParametr($"[Id]={day.Id}", Operator.NONE) });
+                        }
+                        foreach (TrainingWeek tw in weeksList)
+                        {
+                            DBRequest.Delete("TrainingWeeks", new List<QueryParametr> { new QueryParametr($"[Id]={tw.Id}", Operator.NONE) });
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (TrainingDay day in dayList)
+                    {
+                        DBRequest.Delete("TrainingDays", new List<QueryParametr> { new QueryParametr($"[Id]={day.Id}", Operator.NONE) });
+                    }
+                    foreach (TrainingWeek tw in weeksList)
+                    {
+                        DBRequest.Delete("TrainingWeeks", new List<QueryParametr> { new QueryParametr($"[Id]={tw.Id}", Operator.NONE) });
+                    }
+                }
+            }
+
+        }
+        DBRequest.Delete("TrainingProgramms", new List<QueryParametr> { new QueryParametr($"[Id]={trainingProgramm.Id}", Operator.NONE) });
+
+    }
+    private void save()
+    {
+        SaveImage();
+        DBRequest.Update("TrainingProgramms", trainingProgramm);
+    }
+    private void openReport()
+    {
+        if (reportShow)
+            reportShow = false;
+        else
+            reportShow = true;
+    }
+    private void closeReport()
+    {
+        reportShow = false;
+    }
+}

@@ -1,0 +1,36 @@
+﻿body {
+}
+.Report-Item{
+    border:solid 1px black;
+}
+.reported-item{
+    width:60%;
+    display:flex;
+    flex-direction:column;
+}
+.user-info {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+    text-align: end;
+}
+user-info h4{
+    margin-top:2vw;
+}
+.user-info-img {
+    border-radius: 50%;
+    width: 3vw;
+    height: 6vh;
+}
+.main-content{
+    display:flex;
+    flex-direction:row;
+    border-bottom:1px solid black;
+}
+.reported-item-img{
+    width:100%;
+    height:15vh;
+}
+.reported-user{
+    width:40%;
+}

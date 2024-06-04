@@ -1,0 +1,37 @@
+﻿@using Project.Data;
+
+<div class="exercise-rating-item">
+    <div class="exercise-rating-item-top">
+        <div class="exercise-item-top-img"></div>
+        <div class="exercise-item-top-text">
+            <div>@user.Login</div>
+            <div class="stars">
+                @for (int i = 0; i < ratingExercise.Rating; i++)
+                {
+                    <span>★</span>
+                }
+            </div>
+
+        </div>
+    </div>
+    <div class="exercise-rating-item-bot">
+        <p>@ratingExercise.Comment</p>
+        <div>@dateString</div>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private TrainingProgrammRating ratingExercise;
+    private User user;
+    private string dateString;
+    protected override void OnInitialized()
+    {
+        ratingExercise = DBRequest.Select<TrainingProgrammRating>("TrainingProgrammRating", new List<QueryParametr> { new QueryParametr($"[Id]={id}", Operator.NONE) })[0];
+        user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={ratingExercise.UserId}", Operator.NONE) })[0];
+        dateString = ratingExercise.Date.Day > 9 ? ratingExercise.Date.Day.ToString() + "." : "0" + ratingExercise.Date.Day.ToString() + ".";
+        dateString += +ratingExercise.Date.Month > 9 ? ratingExercise.Date.Month.ToString() : "0" + ratingExercise.Date.Month.ToString();
+        dateString += "." + ratingExercise.Date.Year.ToString();
+    }
+}
+

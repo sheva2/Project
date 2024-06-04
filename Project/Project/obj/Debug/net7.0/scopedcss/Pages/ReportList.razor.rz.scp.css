@@ -1,0 +1,4 @@
+.items_list[b-nivzap8cia] {
+    display: inline-grid;
+    grid-template-columns: repeat(5,1fr);
+}

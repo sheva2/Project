@@ -1,0 +1,15 @@
+﻿body {
+}
+.exercise-main{
+    display:flex;
+    flex-direction:column;
+}
+.exercise-midle-content {
+    display: flex;
+    flex-direction: row;
+}
+.video-block {
+    background-color: black;
+    width: 80%;
+    height: 55vh;
+}

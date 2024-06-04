@@ -1,0 +1,157 @@
+﻿@namespace Project.Data
+@inject NavigationManager Navigation
+@if (reportId > 0)
+{
+<div class="Report-Item">
+    
+   
+        <div class="user-info">
+            <img class="user-info-img" src="Avatars/@(GetPath())" />
+            <h4>@(
+                    GetLogin()
+                    )</h4>
+        </div>
+        <div class="main-content">
+            <div class="reported-user">
+                <img class="user-info-img" src="Avatars/@(GetReportedUserAv())" />
+                <h4>@(
+                        GetReportedUserLogin()
+                        )</h4>
+            </div>
+            <div class="reported-item">
+                <img class="reported-item-img" src="Logos/@(GetProgrammLogo())" />
+                <span>@(
+                      GetProgrammName()
+                      )</span>
+            </div>
+        </div>
+        <span>Текст жалобы:</span>
+        <p>@(
+                    GetReportText()
+                    )</p>
+        <input type="button" value="Close Report" @onclick="DeleteReport" />
+        </div>
+    }
+
+@code {
+    [Parameter]
+    public int reportId { get; set; } = -1;
+    protected override void OnInitialized()
+    {
+        if (UserService.getInstance().CurentUser.Id != 0)
+        {
+            int id = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Login]='{UserService.getInstance().CurentUser.Login}'", Operator.NONE) })[0].Id;
+            var adm = DBRequest.Select<Admin>("Admins", new List<QueryParametr> { new QueryParametr($"[Id]={id}", Operator.NONE) });
+            if (adm.Count == 0)
+            {
+                Navigation.NavigateTo("");
+            }
+        }
+        else
+            Navigation.NavigateTo("Authorization");
+    }
+    private string GetLogin()
+    {
+        try
+        {
+            ProgrammReport report = DBRequest.Select<ProgrammReport>("ProgrammReports", new List<QueryParametr> { new QueryParametr($"[Id]={reportId}", Operator.NONE) })[0];
+            User user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={report.UserId}", Operator.NONE) })[0];
+            return user.Login;
+        }
+        catch
+        {
+
+            return "";
+        }
+    }
+    private string GetReportedUserAv()
+    {
+        try
+        {
+            ProgrammReport report = DBRequest.Select<ProgrammReport>("ProgrammReports", new List<QueryParametr> { new QueryParametr($"[Id]={reportId}", Operator.NONE) })[0];
+            TrainingProgramm programm = DBRequest.Select<TrainingProgramm>("TrainingProgramms", new List<QueryParametr> { new QueryParametr($"[Id]={report.ProgrammId}", Operator.NONE) })[0];
+            Coach coach = DBRequest.Select<Coach>("Coaches", new List<QueryParametr> { new QueryParametr($"[Id]={programm.CoachId}", Operator.NONE) })[0];
+            User user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={coach.UserId}", Operator.NONE) })[0];
+            Avatar avatar = DBRequest.Select<Avatar>("Avatars", new List<QueryParametr> { new QueryParametr($"[Id]={user.AvatarId}", Operator.NONE) })[0];
+            return avatar.Link;
+        }
+        catch
+        {
+            return "";
+        }
+    }
+    private string GetReportedUserLogin()
+    {
+        try
+        {
+            ProgrammReport report = DBRequest.Select<ProgrammReport>("ProgrammReports", new List<QueryParametr> { new QueryParametr($"[Id]={reportId}", Operator.NONE) })[0];
+            TrainingProgramm programm = DBRequest.Select<TrainingProgramm>("TrainingProgramms", new List<QueryParametr> { new QueryParametr($"[Id]={report.ProgrammId}", Operator.NONE) })[0];
+            Coach coach = DBRequest.Select<Coach>("Coaches", new List<QueryParametr> { new QueryParametr($"[Id]={programm.CoachId}", Operator.NONE) })[0];
+            User user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={coach.UserId}", Operator.NONE) })[0];
+
+            return user.Login;
+        }
+        catch
+        {
+            return "";
+        }
+    }
+    private string GetProgrammLogo()
+    {
+        try
+        {
+            ProgrammReport report = DBRequest.Select<ProgrammReport>("ProgrammReports", new List<QueryParametr> { new QueryParametr($"[Id]={reportId}", Operator.NONE) })[0];
+            TrainingProgramm programm = DBRequest.Select<TrainingProgramm>("TrainingProgramms", new List<QueryParametr> { new QueryParametr($"[Id]={report.ProgrammId}", Operator.NONE) })[0];
+            Logo logo = DBRequest.Select<Logo>("Logo", new List<QueryParametr> { new QueryParametr($"[Id]={programm.LogoId}", Operator.NONE) })[0];
+            return logo.PhotoLink;
+        }
+        catch
+        {
+            return "";
+        }
+    }
+    private string GetProgrammName()
+    {
+        try
+        {
+            ProgrammReport report = DBRequest.Select<ProgrammReport>("ProgrammReports", new List<QueryParametr> { new QueryParametr($"[Id]={reportId}", Operator.NONE) })[0];
+            TrainingProgramm programm = DBRequest.Select<TrainingProgramm>("TrainingProgramms", new List<QueryParametr> { new QueryParametr($"[Id]={report.ProgrammId}", Operator.NONE) })[0];
+            return programm.Name;
+        }
+        catch
+        {
+            return "";
+        }
+    }
+    private string GetPath()
+    {
+        try
+        {
+            ProgrammReport report = DBRequest.Select<ProgrammReport>("ProgrammReports", new List<QueryParametr> { new QueryParametr($"[Id]={reportId}", Operator.NONE) })[0];
+            User user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={report.UserId}", Operator.NONE) })[0];
+            Avatar avatar = DBRequest.Select<Avatar>("Avatars", new List<QueryParametr> { new QueryParametr($"[Id]={user.AvatarId}", Operator.NONE) })[0];
+            return avatar.Link;
+        }
+        catch
+        {
+            return "";
+        }
+    }
+    private string GetReportText()
+    {
+        try
+        {
+            ProgrammReport report = DBRequest.Select<ProgrammReport>("ProgrammReports", new List<QueryParametr> { new QueryParametr($"[Id]={reportId}", Operator.NONE) })[0];
+            return report.Reason;
+        }
+        catch
+        {
+            return "";
+        }
+    }
+    private void DeleteReport()
+    {
+        DBRequest.Delete("ProgrammReports", new List<QueryParametr> { new QueryParametr($"[Id]={reportId}", Operator.NONE) });
+        Navigation.NavigateTo("Reports", true);
+    }
+}

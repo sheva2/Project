@@ -1,0 +1,49 @@
+﻿@using Project.Data;
+@page "/KalendarWeeks/{programmId:int}/{key:bool}"
+
+<div class="kalendar-header">Календарь недель</div>
+    <div class="Kalendar-main">
+    
+    @foreach (TrainingWeek tw in weeks)
+    {
+        <TrainingWeekComponent id="@tw.Id" number="@tw.Number" key="@key"></TrainingWeekComponent>
+    }
+    @if (key)
+    {
+        <input class="addWeek" type="button" value="+ неделю" @onclick="CLick"/>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int programmId { get; set; }
+    [Parameter]
+    public bool key { get; set; }
+    private List<TrainingWeek> weeks;
+    protected override void OnInitialized()
+    {
+        weeks = DBRequest.Select<TrainingWeek>("TrainingWeeks", new List<QueryParametr> { new QueryParametr($"[TrainigProgrammId]={programmId}", Operator.NONE) });
+    }
+    private void CLick()
+    {
+        TrainingDay day;
+        TrainingWeek week = new TrainingWeek();
+        week.TrainigProgrammId = programmId;
+        if(weeks.Count!=0)
+            week.Number = weeks[weeks.Count - 1].Number + 1;
+        else
+        {
+            week.Number = 1;
+        }
+        int weekId=DBRequest.Insert("TrainingWeeks", week,true);
+
+        for(int i = 0; i < 7; i++)
+        {
+            day = new TrainingDay();
+            day.TrainingWeekId = weekId;
+            day.Number = i + 1;
+            DBRequest.Insert("TrainingDays", day);
+        }
+        OnInitialized();
+    }
+}

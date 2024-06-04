@@ -1,0 +1,114 @@
+﻿@page "/exercisecreate"
+@inject UserService userService
+@inject IWebHostEnvironment env
+@using Project.Data;
+@using System.Text;
+<form class="main-form">
+    <input placeholder="Название" @bind="exercise.Name" class="name-input"/>
+    
+    <div>
+        <textarea placeholder="Описание" @bind="exercise.Description" maxlength="500" class="description-input"/>
+    </div>
+
+    <div>
+        <input type="checkbox" @bind="exercise.IsVisible" />
+        <label>Видимость в общей библиотеке</label>
+    </div>
+    <InputFile OnChange="OnInputFileChange"></InputFile>
+    <input type="button" value="Создать" @onclick="Click" />
+</form>
+@if (selectedFiles != null)
+        {
+            @if (selectedFiles.Count != 0)
+            {
+        @selectedFiles[0].ContentType
+            }
+        }
+@code {
+    private Exercise exercise;
+    private User? user;
+    private Coach? coach;
+    IReadOnlyList<IBrowserFile> selectedFiles;
+    protected override void OnInitialized()
+    {
+        exercise = new Exercise();
+        user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Email]='{UserService.getInstance().CurentUser.Email}'", Operator.NONE) })[0];
+    }
+    public void Click()
+    {
+        SaveImage();
+        Add();
+    }
+    public void Add()
+    {
+        
+        coach = DBRequest.Select<Coach>("Coaches", new List<QueryParametr> { new QueryParametr($"[UserId]={user.Id}", Operator.NONE) })[0];
+
+        exercise.CoachId = coach.Id;
+        exercise.DateOfLastUpdate = DateTime.Now;
+        DBRequest.Insert("Exercises", exercise);
+    }
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        selectedFiles = e.GetMultipleFiles();
+        this.StateHasChanged();
+    }
+    private async void SaveImage()
+    {
+
+        List<string> strs;
+        List<string> names;
+        int id = -1;
+        if (selectedFiles != null)
+        {
+            if (selectedFiles.Count != 0)
+            {
+                foreach (var file in selectedFiles)
+                {
+
+                    Stream stream = file.OpenReadStream(10000000);
+
+                    strs=file.ContentType.Split('/').ToList<string>();
+                    if (strs[0] == "video")
+                    {
+                        Video avatar = new Video();
+                        names = new List<string>();
+                        switch (strs[1])
+                        {
+                            case "webm":
+                                names.Add(user.Id.ToString()+file.Name);
+                                names.Add(user.Id.ToString()+file.Name.Split('.')[0]+".mp4");
+                                break;
+                            case "mp4":
+                                names.Add(user.Id.ToString() + file.Name);
+                                names.Add(user.Id.ToString() + file.Name.Split('.')[0] + ".webm");
+                                break;
+                            default:
+                                names.Add(user.Id.ToString() + file.Name);
+                                names.Add(user.Id.ToString() + file.Name.Split('.')[0] + ".webm");
+                                break;
+                        }
+                        var path = $"{env.WebRootPath}\\videos\\{names[0]}";
+                        var path2 = $"{env.WebRootPath}\\videos\\{names[1]}";
+                        FileStream fs = File.Create(path);
+                        FileStream fs2 = File.Create(path2);
+                        avatar.VideoLink = names[0];
+                        id=DBRequest.Insert("Videos", avatar, true);
+
+                        if (id != -1)
+                            exercise.VideoId = id;
+                        await stream.CopyToAsync(fs);
+                        await stream.CopyToAsync(fs2);
+                        stream.Close();
+                        fs.Close();
+                        
+                            
+                    }
+                    
+
+                }
+            }
+        }
+
+    }
+}

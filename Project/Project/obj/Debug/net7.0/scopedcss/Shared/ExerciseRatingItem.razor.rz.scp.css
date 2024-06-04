@@ -1,0 +1,18 @@
+.exercise-rating-item[b-b572khwjkx]{
+    display:flex;
+    flex-direction:column;
+    border:1px solid gray;
+    width:100%;    
+}
+.exercise-item-top-text[b-b572khwjkx] {
+    display: flex;
+    flex-direction: row;
+}
+.stars[b-b572khwjkx] {
+    display: flex;
+    flex-direction: row;
+    text-align:right;
+}
+span[b-b572khwjkx]{
+    display:block;
+}

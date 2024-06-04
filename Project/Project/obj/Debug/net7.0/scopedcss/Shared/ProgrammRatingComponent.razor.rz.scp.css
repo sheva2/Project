@@ -1,0 +1,21 @@
+.exercise-rating-item[b-zaii67alva] {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid gray;
+    width: 100%;
+}
+
+.exercise-item-top-text[b-zaii67alva] {
+    display: flex;
+    flex-direction: row;
+}
+
+.stars[b-zaii67alva] {
+    display: flex;
+    flex-direction: row;
+    text-align: right;
+}
+
+span[b-zaii67alva] {
+    display: block;
+}

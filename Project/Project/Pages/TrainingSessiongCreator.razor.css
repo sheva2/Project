@@ -1,0 +1,29 @@
+﻿.Inputs-block{
+    display:flex;
+    flex-direction:column;
+    width:20vw;
+
+}
+.duration-input{
+    display:block;
+    width:4vw;
+}
+.duration-block{
+    display:flex;
+    flex-direction:row;
+}
+.input-bottom-block {
+    display: flex;
+    flex-direction: row;
+}
+.exercises-list{
+    width:80%;
+    margin-left:10%;
+    border:1px solid black;
+}
+.add-exercise {
+    width: 80%;
+    margin-left: 10%;
+    border: 1px solid black;
+    height:15vh;
+}

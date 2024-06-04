@@ -1,0 +1,56 @@
+﻿@namespace Project.Data
+@if (!isSend)
+{
+    <div style="display:flex;flex-direction:column;">
+    <span>Опишите проблему:</span>
+    <textarea @bind="report.Reason" ></textarea>
+    <input  type="button" value="Отправить" @onclick="Click"/>
+    <span>@errorText</span>
+    </div>
+}
+else
+{
+    <span>Жалоба отправлена</span>
+}
+@code {
+    [Parameter]
+    public int programmId { get; set; }
+    private User user;
+    private ProgrammReport report;
+    private bool isSend=false;
+    private string errorText="";
+    protected override void OnInitialized()
+    {
+        user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Email]='{UserService.getInstance().CurentUser.Email}'", Operator.NONE) })[0];
+        report = new ProgrammReport();
+    }
+    public bool CheckReport()
+    {
+        var lastReps = DBRequest.Select<ProgrammReport>("ProgrammReports", new List<QueryParametr> { new QueryParametr($"[UserId]={user.Id}", Operator.AND), new QueryParametr($"[ProgrammId]={programmId}", Operator.AND), new QueryParametr($"[Date]='{DateTime.Now.Date}'", Operator.NONE) });
+        if (lastReps.Count != 0)
+            return true;
+        else
+            return false;
+    }
+    public void Click()
+    {
+        if (!string.IsNullOrEmpty(report.Reason))
+        {
+            if (!CheckReport()){
+                AddReport();
+                isSend = true;
+            }
+            else
+                errorText = "Вы уже отправляли сегодня жалобу";
+        }
+    }
+    public void AddReport()
+    {
+        
+        report.UserId = user.Id;
+        report.Date = DateTime.Now;
+        report.ProgrammId = programmId;
+        DBRequest.Insert("ProgrammReports",report);
+
+    }
+}

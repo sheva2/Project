@@ -1,0 +1,50 @@
+﻿@page "/Authorization"
+@using Project.Data
+@inject RegistrationService registrationService
+@inject NavigationManager Navigation
+<form class="main-form-registration">
+    
+    <div class="form-main-content">
+        <div class="form-main-content-top">
+            <span class="form-main-content-top-text">Authorization</span>
+        </div>
+        <input @onchange="LoginChanged" class="form-input" type="text" placeholder="Login or Email" />
+        <input @onchange="PasswordChanged" class="form-input" type="password" placeholder="Password" />
+        <div class="form-bottom-btns">
+            <span class="authorization-btn" @onclick="ChangeToRegistration"><b>Регистрация</b></span>
+            <input class="form-button" type="button" value="Submit" @onclick="LogUser" />
+        </div>
+    </div>
+</form>
+@code {
+    string emailLogin;
+    string pass;
+
+    public async void ChangeToRegistration()
+    {
+
+        Navigation.NavigateTo("Registration");
+    }
+    public void LogUser()
+    {
+        bool answer = registrationService.Authorization(emailLogin, pass);
+        StateHasChanged();
+        if (answer){
+
+            Navigation.NavigateTo("/userpage", true);
+        }
+        else
+        {
+            
+        }
+    }
+    private async Task LoginChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        emailLogin = (string)patharg.Value;
+    }
+    private async Task PasswordChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+       pass = (string)patharg.Value;
+
+    }
+}

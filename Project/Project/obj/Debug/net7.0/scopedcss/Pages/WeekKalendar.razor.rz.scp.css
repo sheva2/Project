@@ -1,0 +1,28 @@
+body[b-cr3k1s1k1n] {
+}
+.Kalendar-main[b-cr3k1s1k1n] {
+    
+    display: inline-grid;
+    grid-template-columns: repeat(5,1fr);
+    height:auto;
+    min-height:25vh;
+}
+.addWeek[b-cr3k1s1k1n] {
+    width: 5vw;
+    height: 8vh;
+    background-color: lightgray;
+    border: 1px solid black;
+    cursor: pointer;
+}
+.kalendar[b-cr3k1s1k1n] {
+    display:flex;
+    flex-direction:column;
+    margin-left: 15vw;
+    width:40vw;
+    border: 1px solid black;
+    height: auto;
+    min-height: 25vh;
+}
+.kalendar-header[b-cr3k1s1k1n] {
+    width:auto;
+}

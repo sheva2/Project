@@ -1,0 +1,88 @@
+﻿.header {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    background-image: linear-gradient(to right, #000000, lightslategray);
+    width: 100vw;
+    height: 9.259vh;
+    z-index:10;
+}
+
+.header-content {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1.9896vw;
+    margin-top: 2.22vh;
+    width: 94.01vw;
+    height: 5.093vh;
+    color: white;
+}
+
+.user-logo {
+    border-radius: 50%;
+    background-color: white;
+    width: 2.6vw;
+    height: 4.627vh;
+}
+
+.user-name {
+    font-size: 2.407vh;
+    align-self: flex-end;
+    margin-left: 1.302vw;
+}
+.mobile-menu {
+    display:none;
+}
+.exit-button {
+    width: 2.338vw;
+    height: 4.167vh;
+    
+    align-self: flex-end;
+    float: right;
+    margin-left: auto;
+    margin-right: 1.302vw;
+    margin-bottom: 0.2vh;
+    display:none;
+}
+@media (min-width:319px) and (max-width:430px){
+    
+    .header {
+        position: fixed;
+        display: flex;
+        flex-direction: row;
+        background-image: linear-gradient(to right, #000000, lightslategray);
+        width: 100vw;
+        height: 12.259vh;
+        z-index: 10;
+    }
+    .user-logo {
+        border-radius: 50%;
+        background-color: white;
+        height: 6.6vh;
+        width: 11.627vw;
+    }
+    .user-name {
+        font-size: 1.6em;
+        align-self: flex-end;
+        margin-left: 1.302vw;
+    }
+    .exit-button {
+        width: 7.338vw;
+        height: 4.167vh;
+        
+        align-self: flex-end;
+        float: right;
+        margin-left: auto;
+        margin-right: 1.302vw;
+        margin-bottom: 0.2vh;
+        display:block;
+    }
+    .mobile-menu {
+        display: block;
+        height: 60vh;
+        background-color: black;
+        
+        z-index: 9;
+        
+    }
+}

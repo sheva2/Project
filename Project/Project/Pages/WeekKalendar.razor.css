@@ -1,0 +1,28 @@
+﻿body {
+}
+.Kalendar-main {
+    
+    display: inline-grid;
+    grid-template-columns: repeat(5,1fr);
+    height:auto;
+    min-height:25vh;
+}
+.addWeek {
+    width: 5vw;
+    height: 8vh;
+    background-color: lightgray;
+    border: 1px solid black;
+    cursor: pointer;
+}
+.kalendar {
+    display:flex;
+    flex-direction:column;
+    margin-left: 15vw;
+    width:40vw;
+    border: 1px solid black;
+    height: auto;
+    min-height: 25vh;
+}
+.kalendar-header {
+    width:auto;
+}

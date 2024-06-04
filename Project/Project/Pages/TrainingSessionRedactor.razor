@@ -1,0 +1,162 @@
+﻿@page "/TrainingSessionRedactor/{trainingSessionId:int}"
+@page "/TrainingSessionRedactor/{trainingSessionId:int}/{key:bool}"
+@using Project.Data;
+@inject NavigationManager Navigation;
+@if (key)
+{
+    <div class="Inputs-block">
+        <input type="text" placeholder="Название" @bind="session.Name" />
+        <div class="duration-block">
+            <label>Длительность в мин</label>
+            <input @bind="session.Duration" type="text"  />
+        </div>
+        <div class="input-bottom-block">
+            <select @bind="session.HardLevel">
+                @foreach (SessionHardLevel sh in levels)
+                {
+                    <option value="@sh.num">@sh.name</option>
+                }
+            </select>
+            <input type="button" value="Сохранить" @onclick="RedactTrainingSession" />
+        </div>
+    </div>
+    <div class="ExercisesList">
+        <input type="button" value="добавить упражнение" @onclick="click"/>
+    </div>
+}
+else
+{
+    <div class="Inputs-block">
+        <span>@session.Name</span>
+        <div class="duration-block">
+            <label>Длительность в мин</label>
+            <span type="text">@session.Duration</span>
+        </div>
+        <div class="input-bottom-block">
+           <span>@(getlevel())</span>
+            
+        </div>
+    </div>
+}
+<div class="ExercisesList">
+    @foreach (ExerciseTrainingSession ets in etsList)
+    {
+        <table class="exercises-table">
+        <tr>
+                <td @onclick="()=>exerciseClicked(ets.ExerciseId)">@getExercise(ets.ExerciseId).Name</td>
+                @if (key)
+                {
+                    <td class="delete-btn" @onclick="()=>delete(ets)">X</td>
+                }
+        </tr>
+        
+        @foreach (Series s in GetSeries(ets.Id))
+        {
+            <tr>
+                <th>Кол-во</th>
+                <td>@s.Num</td>
+            </tr>
+            <tr>
+                <th>Время отдыха</th>
+                <td>@s.TimeOfBreak'</td>
+            </tr>
+            <tr>
+                    <th>Вес отягощения</th>
+                    @if (s.Weight != 0)
+                    {
+                        <td>@s.Weight</td>
+                    }
+                    else
+                    {
+                        <td>0</td>
+                    }
+            </tr>
+                
+            
+        }
+        </table>
+    }
+</div>
+
+
+@code {
+    private class SessionHardLevel
+    {
+        public int num;
+        public string name;
+        public SessionHardLevel(int num, string name)
+        {
+            this.num = num;
+            this.name = name;
+        }
+    }
+    [Parameter]
+    public int trainingSessionId { get; set; }
+    [Parameter]
+    public bool key { get; set; }
+
+    private List<ExerciseTrainingSession> etsList;
+
+    private TrainingSession session;
+    private List<SessionHardLevel> levels;
+    private int id;
+
+    private async Task DurationChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        session.Duration = Convert.ToInt32((string)patharg.Value);
+    }
+    protected override void OnInitialized()
+    {
+        session = DBRequest.Select<TrainingSession>("TrainingSession", new List<QueryParametr> { new QueryParametr($"[Id]={trainingSessionId}", Operator.NONE) })[0];
+        levels = new List<SessionHardLevel>()
+        {
+            new SessionHardLevel(1,"Легкая"),
+            new SessionHardLevel(2,"Средняя"),
+            new SessionHardLevel(3,"Тяжелая")
+        };
+        etsList= DBRequest.Select<ExerciseTrainingSession>("ExerciseTrainingSession", new List<QueryParametr> { new QueryParametr($"[SessionId]={trainingSessionId}", Operator.NONE) });
+    }
+    private void RedactTrainingSession()
+    {
+        DBRequest.Update("TrainingSession", session);
+
+    }
+    private void click()
+    {
+        Navigation.NavigateTo($"ExerciseSessionCreate/{trainingSessionId}");
+    }
+    private Exercise getExercise(int exerciseId)
+    {
+        Exercise e = DBRequest.Select<Exercise>("Exercises", new List<QueryParametr> { new QueryParametr($"[Id]={exerciseId}", Operator.NONE) })[0];
+        return e;
+    }
+    private List<Series> GetSeries(int exerciseSessionId)
+    {
+        List<Series> series = DBRequest.Select<Series>("Series", new List<QueryParametr> { new QueryParametr($"[ExerciseSessionId]={exerciseSessionId}", Operator.NONE) });
+        return series;
+    }
+    private void delete(ExerciseTrainingSession etx)
+    {
+        foreach(Series ser in GetSeries(etx.Id))
+        {
+            DBRequest.Delete("Series", new List<QueryParametr> { new QueryParametr($"[Id]={ser.Id}", Operator.NONE) });
+        }
+        DBRequest.Delete("ExerciseTrainingSession", new List<QueryParametr> { new QueryParametr($"[Id]={etx.Id}", Operator.NONE) });
+    }
+    private string getlevel()
+    {
+        string res = "";
+        foreach(SessionHardLevel sh in levels)
+        {
+            if (sh.num == session.HardLevel)
+            {
+                res = sh.name;
+            }
+        }
+        return res;
+    }
+    private void exerciseClicked(int exerciseId)
+    {
+        Navigation.NavigateTo($"Exercise/{exerciseId}");
+    }
+}

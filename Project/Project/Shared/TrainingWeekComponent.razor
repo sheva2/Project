@@ -1,0 +1,18 @@
+﻿@using Project.Data;
+@inject NavigationManager navigation;
+<div class="WeekComponent" @onclick="click">
+    @number -я
+</div>
+@code {
+    [Parameter]
+    public int id{ get; set; }
+    [Parameter]
+    public int number { get; set; }
+    [Parameter]
+    public bool key{ get; set; }
+
+    private void click()
+    {
+        navigation.NavigateTo($"KalendarDays/{id}/{key}");
+    }
+}

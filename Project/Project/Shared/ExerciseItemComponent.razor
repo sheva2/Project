@@ -1,0 +1,88 @@
+﻿@using Project.Data;
+@inject NavigationManager Navigation
+@if (isLast == 0)
+{
+    <div class="item" @onclick="ItemClick">
+        <div class="item-content">
+            <div class="item-img">
+                <span>★@(countExerciseRating())</span>
+            </div>
+            <div class="item-text">@(getExerciseName())<br />@(getAuthorName())</div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="item_last" @onclick="ItemClick">
+        <div class="item-content">
+            <div class="item-img">
+                <span>★@(countExerciseRating())</span>
+            </div>
+            <div class="item-text">@(getExerciseName())<br />@(getAuthorName())</div>
+        </div>
+    </div>
+    
+}
+@code {
+    private void ItemClick()
+    {
+        if(sessionId!=0)
+            Navigation.NavigateTo($"Exercise/{id}/{sessionId}");
+        else
+            Navigation.NavigateTo($"Exercise/{id}");
+    }
+    [Parameter]
+    public string name { get; set; } = "Base Name";
+    [Parameter]
+    public int isLast { get; set; } = 0;
+    [Parameter]
+    public int id{ get; set; } 
+    public string author { get; set; } = "author";
+    [Parameter]
+    public int sessionId{ get; set; }
+    [Parameter]
+    public Exercise exercise { get; set; }
+    private double rating;
+    protected override void OnInitialized()
+    {
+        exercise = DBRequest.Select<Exercise>("Exercises", new List<QueryParametr> { new QueryParametr($"[Id]={id}", Operator.NONE) })[0];
+        getAuthorName();
+        countExerciseRating();
+    }
+    public string getExerciseName()
+    {
+        Exercise exercise2;
+        exercise2 = DBRequest.Select<Exercise>("Exercises", new List<QueryParametr> { new QueryParametr($"[Id]={id}", Operator.NONE) })[0];
+        return exercise2.Name;
+    }
+    public string getAuthorName()
+    {
+        string authorName = "";
+        Exercise exercise2;
+        exercise2 = DBRequest.Select<Exercise>("Exercises", new List<QueryParametr> { new QueryParametr($"[Id]={id}", Operator.NONE) })[0];
+        Coach coach = DBRequest.Select<Coach>("Coaches", new List<QueryParametr> { new QueryParametr($"[Id]={exercise2.CoachId}", Operator.NONE) })[0];
+        User user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={coach.UserId}", Operator.NONE) })[0];
+        author = user.Login;
+        return user.Login;
+    }
+    public double countExerciseRating()
+    {
+        double res = 0.0;
+        List<RatingExercise> list = DBRequest.Select<RatingExercise>("RatingExercise", new List<QueryParametr> { new QueryParametr($"[ExerciseId]={id}", Operator.NONE) });
+        if (list.Count != 0)
+        {
+            foreach (RatingExercise re in list)
+            {
+                res += re.Rating;
+            }
+            rating = res / list.Count;
+            return res / list.Count;
+        }
+        else
+            return 0.0;
+
+        
+        
+        
+    }
+}

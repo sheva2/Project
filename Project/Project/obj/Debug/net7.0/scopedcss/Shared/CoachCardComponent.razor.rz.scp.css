@@ -1,0 +1,19 @@
+.card-top-block[b-kvbn84dxgc] {
+    display: flex;
+    flex-direction: row;
+}
+card-bottom-block[b-kvbn84dxgc]{
+    text-align:end;
+}
+.card-main[b-kvbn84dxgc] {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 20vh;
+    border: 1px solid black;
+}
+.img-block[b-kvbn84dxgc]{
+    background-color:forestgreen;
+    width:40%;
+    height:10vh;
+}

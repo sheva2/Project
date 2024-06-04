@@ -1,0 +1,39 @@
+﻿@inherits LayoutComponentBase
+@using Project.Data;
+@inject UserService userService
+@inject NavigationManager Navigation
+@inject IJSRuntime JsRuntime
+<PageTitle>Project</PageTitle>
+<div class="page1">
+    @if (user.Email != "")
+    {
+        <HeaderComponent userName="@user.Login"/>
+    }
+    <div class="main">
+        @if (user.Email != "")
+            {
+                <div class="main-left_bar">
+            
+                <NavMenu/>
+            
+                </div>
+            }
+        <div class="main-content">
+            <article >
+                @Body
+            </article>
+        </div>
+        <div class="main-right_bar" >Some right bar information</div>
+    </div>
+    <div class="footer"></div>
+    <div class="fog"></div>
+</div>
+@code{
+    public User? user;
+    protected override void OnInitialized()
+    {
+        user = UserService.getInstance().CurentUser;
+    }
+    
+    
+}

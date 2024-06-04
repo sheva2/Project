@@ -1,0 +1,16 @@
+﻿.days-block {
+    margin-top: 15vh;
+    margin-left: 10vw;
+    display: flex;
+    min-height: 8vh;
+    flex-direction: row;
+}
+@media (min-width:319px) and (max-width:430px) {
+    .days-block {
+        margin-top: 15vh;
+        margin-left: 10vw;
+       
+        display: flex;
+        flex-direction: column;
+    }
+}

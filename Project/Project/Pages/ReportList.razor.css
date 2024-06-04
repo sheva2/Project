@@ -1,0 +1,4 @@
+﻿.items_list {
+    display: inline-grid;
+    grid-template-columns: repeat(5,1fr);
+}

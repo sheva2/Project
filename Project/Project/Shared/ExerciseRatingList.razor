@@ -1,0 +1,137 @@
+﻿@using Project.Data;
+@inject NavigationManager Navigation
+<div class="exercise-rating-add">
+    <div class="exercise-rating-stars">
+        <span style="@starStyles[0]" @onclick="StarSelected1">★</span>
+        <span style="@starStyles[1]" @onclick="StarSelected2">★</span>
+        <span style="@starStyles[2]" @onclick="StarSelected3">★</span>
+        <span style="@starStyles[3]" @onclick="StarSelected4">★</span>
+        <span style="@starStyles[4]" @onclick="StarSelected5">★</span>
+    </div>
+    <div class="exercise-rating-inputs">
+        <input @onchange="InputChanged" />
+        <input type="button" value="submit" @onclick="Click"/>
+    </div>
+    
+</div>
+<div class="exercise-rating-list">
+    @if (exerciseId != -1) {
+        @foreach (RatingExercise re in exrcises)
+        {
+            <ExerciseRatingItem id="@re.Id"></ExerciseRatingItem>
+        }
+
+    }
+    else
+    {
+        @foreach (TrainingProgrammRating re in programms)
+        {
+            <ProgrammRatingComponent id="@re.Id"></ProgrammRatingComponent>
+        }
+    }
+</div>
+@code {
+    [Parameter]
+    public int exerciseId { get; set; } = -1;
+    [Parameter]
+    public int trainingProgrammId { get; set; } = -1;
+    private List<RatingExercise> exrcises;
+    private List<TrainingProgrammRating> programms;
+    private string commentString;
+    private int rating = 0;
+    private List<string> starStyles = new List<string>
+    {
+        "color:lightgray",
+        "color:lightgray",
+        "color:lightgray",
+        "color:lightgray",
+        "color:lightgray"
+
+    };
+
+    protected override void OnInitialized()
+    {
+        if (UserService.getInstance().CurentUser.Id != 0)
+            if (exerciseId != -1)
+                exrcises = DBRequest.Select<RatingExercise>("RatingExercise", new List<QueryParametr> { new QueryParametr($"[ExerciseId]={exerciseId}", Operator.NONE) });
+            else
+                programms = DBRequest.Select<TrainingProgrammRating>("TrainingProgrammRating", new List<QueryParametr> { new QueryParametr($"[TrainingProgrammId]={trainingProgrammId}", Operator.NONE) });
+        else
+            Navigation.NavigateTo("Registration");
+
+    }
+
+    private async Task InputChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        commentString = (string)patharg.Value;
+    }
+    private async Task StarSelected1()
+    {
+        rating = 1;
+        styleChange();
+    }
+    private async Task StarSelected2()
+    {
+        rating = 2;
+        styleChange();
+    }
+    private async Task StarSelected3()
+    {
+        rating =3;
+        styleChange();
+    }
+    private async Task StarSelected4()
+    {
+        rating = 4;
+        styleChange();
+    }
+    private async Task StarSelected5()
+    {
+        rating = 5;
+        styleChange();
+    }
+
+    private void styleChange()
+    {
+        starStyles = new List<string>
+    {
+        "color:lightgray",
+        "color:lightgray",
+        "color:lightgray",
+        "color:lightgray",
+        "color:lightgray"
+
+    };
+        for (int i=0;i< rating;i++)
+        {
+            starStyles[i] = "color:black";
+        }
+    }
+    private void Click()
+    {
+        RatingExercise re;
+        TrainingProgrammRating tpr; 
+        if (exerciseId != -1)
+        {
+            re = new RatingExercise();
+            re.Rating = rating;
+            re.Date = DateTime.Now;
+            re.UserId = UserService.getInstance().CurentUser.Id;
+            re.ExerciseId = exerciseId;
+            re.Comment = commentString;
+            DBRequest.Insert("RatingExercise", re);
+            OnInitialized();
+        }
+        else
+        {
+            tpr = new TrainingProgrammRating();
+            tpr.Rating = rating;
+            tpr.Date = DateTime.Now;
+            tpr.UserId = UserService.getInstance().CurentUser.Id;
+            tpr.TrainingProgrammId = trainingProgrammId;
+            tpr.Comment = commentString;
+            DBRequest.Insert("TrainingProgrammRating", tpr);
+            OnInitialized();
+        }
+    }
+}

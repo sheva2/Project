@@ -1,0 +1,67 @@
+﻿@page "/TrainingSessionCreator/{dayId:int}"
+@page "/TrainingSessionCreator/{dayId:int}/{key:bool}"
+@using Project.Data;
+@inject NavigationManager Navigation;
+<div class="Inputs-block">
+    <input type="text" placeholder="Название" @bind="session.Name"/>
+    <div class="duration-block">
+        <label>Длительность в мин</label>
+        <input class="duration-input" type="text" @onchange="DurationChanged" />
+    </div>
+    <div class="input-bottom-block">
+     <select @bind="session.HardLevel">
+        @foreach (SessionHardLevel sh in levels)
+        {
+            <option value="@sh.num">@sh.name</option>
+        }
+     </select>
+    <input type="button" value="Создать" @onclick="CreateTrainingSession"/>
+    </div>
+</div>
+
+
+
+@code {
+    private class SessionHardLevel
+    {
+        public int num;
+        public string name;
+        public SessionHardLevel(int num,string name)
+        {
+            this.num = num;
+            this.name = name;
+        }
+    }
+    [Parameter]
+    public int dayId{ get; set; }
+    [Parameter]
+    public bool key { get; set; }
+    private TrainingSession session;
+    private List<SessionHardLevel> levels;
+    private int id;
+    private async Task DurationChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        session.Duration = Convert.ToInt32((string)patharg.Value);
+    }
+    protected override void OnInitialized()
+    {
+        session = new TrainingSession();
+        levels = new List<SessionHardLevel>()
+        {
+            new SessionHardLevel(1,"Легкая"),
+            new SessionHardLevel(2,"Средняя"),
+            new SessionHardLevel(3,"Тяжелая")
+        };
+        session.TrainingDayId = dayId;
+    }
+    private void CreateTrainingSession()
+    {
+
+        id=DBRequest.Insert("TrainingSession",session,true);
+        Navigation.NavigateTo($"TrainingSessionRedactor/{id}/{key}");
+    }
+    private void click()
+    {
+        Navigation.NavigateTo($"ExerciseSessionCreate/{id}");
+    }
+}

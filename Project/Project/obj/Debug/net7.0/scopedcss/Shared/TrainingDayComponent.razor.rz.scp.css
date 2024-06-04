@@ -1,0 +1,36 @@
+.DayComponent-main[b-rhd9u6kv9r] {
+    display: flex;
+    flex-direction: column;
+    width: 8vw;
+    
+    background-color: lightgray;
+    border: 1px solid black;
+    cursor: pointer;
+}
+.add-button[b-rhd9u6kv9r] {
+    margin-top: auto;
+    display: block;
+    height: 3vh;
+    width: 7.89vw;
+    border:0px;
+}
+.sessions-block[b-rhd9u6kv9r] {
+    display:flex;
+    flex-direction:column;
+    background-color:white;
+    flex-grow:1;
+    border-top:1px solid black;
+    min-height:8vh;
+}
+.day_number-block[b-rhd9u6kv9r]{
+}
+@media (min-width:319px) and (max-width:430px) {
+    .DayComponent-main[b-rhd9u6kv9r] {
+        display: flex;
+        flex-direction: column;
+        width: 80vw;
+        background-color: lightgray;
+        border: 1px solid black;
+        cursor: pointer;
+    }
+}

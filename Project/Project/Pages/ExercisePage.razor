@@ -1,0 +1,54 @@
+﻿@page "/Exercise/{id:int}"
+@page "/Exercise/{id:int}/{sessionId:int}"
+@using Project.Data;
+@inject NavigationManager Navigation
+<div class="exercise-main">
+    <div >
+        <h2>@exercise.Name</h2>
+        <div class="exercise-midle-content">
+            
+            <video class="video-block" controls="controls">
+                @if (videoLink.Split(".")[1]=="webm")
+                {
+                    <source muted="muted" autoplay="autoplay" src="videos/@videoLink" type="video/@(videoLink.Split(".")[1])">
+                    <source muted="muted" autoplay="autoplay" src="videos/@(videoLink.Split(".")[0]+".mp4")" type="video/mp4">
+                }
+                else
+                {
+                    <source muted="muted" autoplay="autoplay" src="videos/@videoLink" type="video/@(videoLink.Split(".")[1])">
+                    <source muted="muted" autoplay="autoplay" src="videos/@(videoLink.Split(".")[0]+".webm")" type="video/mp4">
+                }
+                
+                Тег video не поддерживается вашим браузером.
+            </video>
+            
+
+            <CoachCardComponent id="@exercise.CoachId"></CoachCardComponent>
+        </div>
+        <p>@exercise.Description</p>
+    </div>
+    @if(sessionId!=null){
+        <input type="button" value="Выбрать" @onclick="click"/>
+    }
+    <ExerciseRatingList exerciseId="@exercise.Id"></ExerciseRatingList>
+
+    </div>
+@code {
+    private Exercise exercise;
+    [Parameter]
+    public int? id { get; set; }
+    [Parameter]
+    public int? sessionId { get; set; } 
+    private string videoLink;
+
+    private void click()
+    {
+        Navigation.NavigateTo($"ExerciseSessionCreate/{sessionId}/{id}");
+    }
+    protected override void OnInitialized()
+    {
+        exercise = DBRequest.Select<Exercise>("Exercises", new List<QueryParametr> { new QueryParametr($"[Id]={id}", Operator.NONE) })[0];
+        videoLink = DBRequest.Select<Video>("Videos", new List<QueryParametr> { new QueryParametr($"[Id]={exercise.VideoId}", Operator.NONE) })[0].VideoLink;
+    }
+}
+

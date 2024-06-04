@@ -1,0 +1,145 @@
+{
+  "Files": [
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Project.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Project.bundle.scp.css"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\Avatars\\0ang.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\0ang.jpg"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\Avatars\\3Vencure.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\3Vencure.jpg"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\Avatars\\3avavava.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\3avavava.jpg"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\Avatars\\3wall.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\3wall.jpg"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\Avatars\\3wall.png",
+      "PackagePath": "staticwebassets\\Avatars\\3wall.png"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\Avatars\\3ДБ Схема.png",
+      "PackagePath": "staticwebassets\\Avatars\\3ДБ Схема.png"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\Avatars\\5ang.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\5ang.jpg"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\Avatars\\6Vencure.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\6Vencure.jpg"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\Avatars\\6ang.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\6ang.jpg"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\Avatars\\6wall.jpg",
+      "PackagePath": "staticwebassets\\Avatars\\6wall.jpg"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\Logos\\3ДБ Схема.png",
+      "PackagePath": "staticwebassets\\Logos\\3ДБ Схема.png"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\Logos\\testImage.png",
+      "PackagePath": "staticwebassets\\Logos\\testImage.png"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\css\\open-iconic\\README.md",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\README.md"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\listicon.png",
+      "PackagePath": "staticwebassets\\listicon.png"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\videos\\6videoTest.mp4",
+      "PackagePath": "staticwebassets\\videos\\6videoTest.mp4"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\videos\\6videoTest.webm",
+      "PackagePath": "staticwebassets\\videos\\6videoTest.webm"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\videos\\videoTest.mp4",
+      "PackagePath": "staticwebassets\\videos\\videoTest.mp4"
+    },
+    {
+      "Id": "E:\\desktop\\ДЗ\\Диплом\\Project\\Project\\wwwroot\\videos\\videoTest.webm",
+      "PackagePath": "staticwebassets\\videos\\videoTest.webm"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.Project.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.Project.props",
+      "PackagePath": "build\\Project.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.Project.props",
+      "PackagePath": "buildMultiTargeting\\Project.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.Project.props",
+      "PackagePath": "buildTransitive\\Project.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

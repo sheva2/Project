@@ -1,0 +1,44 @@
+﻿.content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.85vh;
+}
+
+.filters_block {
+    width: 100%;
+    height: 6.94vh;
+    border-bottom: solid 1px gray;
+}
+
+.filters-input {
+    margin-top: 2vh;
+}
+
+.items_list {
+    display: inline-grid;
+    grid-template-columns: repeat(5,1fr);
+}
+
+.item-row {
+    display: flex;
+    flex-direction: row;
+}
+
+@media (min-width:319px) and (max-width:430px) {
+    .items_list {
+        margin-left: 3vw;
+        display: inline-grid;
+        grid-template-columns: repeat(2,2fr);
+    }
+
+    .filters_block {
+        width: 100%;
+        height: 12vh;
+        border-bottom: solid 1px gray;
+        margin-bottom: 3vh;
+    }
+
+    .filter-input-search {
+        width: 100%;
+    }
+}

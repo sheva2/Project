@@ -1,0 +1,14 @@
+﻿@using Project.Data;
+@page "/usersList"
+<div class="items_list">
+@foreach(User u in users){
+    <UserItemComponent UserId="u.Id"></UserItemComponent>
+}
+</div>
+@code {
+    private List<User> users;
+    protected override void OnInitialized()
+    {
+       users= DBRequest.Select<User>("Users");
+    }
+}

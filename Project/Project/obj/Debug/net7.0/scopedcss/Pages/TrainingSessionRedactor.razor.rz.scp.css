@@ -1,0 +1,21 @@
+body[b-ru3t1o7sdj] {
+}
+.exercises-table[b-ru3t1o7sdj]{
+    border:1px solid black;
+    width:20vw;
+}
+th[b-ru3t1o7sdj] {
+    border: 1px solid black;
+    width: 17vw;
+}
+td[b-ru3t1o7sdj] {
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+}
+.delete-btn[b-ru3t1o7sdj]{
+    border-left:1px solid black;
+    width:3vw;
+    background-color:lightgray;
+    cursor:pointer;
+    text-align:center;
+}

@@ -1,0 +1,254 @@
+﻿@page "/exercises"
+@page "/exercises/{sessionId:int}"
+@using Project.Data;
+@inject NavigationManager Navigation
+<div class="content">
+    <div class="filters_block">
+        <div class="filters-input">
+            <label>По рейтингу</label>
+            <input type="button" @onclick="RatingFilterUpdate" value="@ratingBtnFilter" />
+            <label>По дате</label>
+            <input type="button" @onclick="DateFilterUpdate" value="@dateBtnFilter" />
+            <input type="checkbox" @onchange="IsMineUpdate" />
+            <label>Только собственные упражнения</label>
+            <input class="filter-input-search" type="search" placeholder="Поиск" @onchange="SearchChanged" />
+        </div>
+    </div>
+    <div class="items_list">
+        @if (exercises != null)
+        {
+               @foreach (Exercise e in exercises)
+                    {
+                        
+                            <ExerciseItemComponent sessionId="@sessionId" isLast="0" id="@e.Id"></ExerciseItemComponent>
+                    } 
+        }
+        else{
+            <div>Ничего не найдено</div>
+        }
+        
+    </div>
+</div>
+@code {
+    private int currentCount=0;
+    private string rowcount ;
+    private string searchStr;
+    private int ratingFilter=0;
+    private int dateFilter=0;
+    private char ratingBtnFilter = '⇕';
+    private char dateBtnFilter = '⇕';
+    private bool isMine=false;
+    [Parameter]
+    public int sessionId{ get; set; }
+    List<Exercise>? exercises;
+    List<List<Exercise>>? rows;
+    List<QueryParametr> queryParametrs; 
+    private Coach? coach;
+    private User? user;
+    private void exercisesToRows()
+    {
+        currentCount = 0;
+        if (exercises != null)
+        {
+            rows = new List<List<Exercise>>();
+            List<Exercise> row = new List<Exercise>();
+            for (int i = 0; i < exercises.Count; i++)
+            {
+                if (currentCount == 4)
+                {
+                    row.Add(exercises[i]);
+                    currentCount = 0;
+                    rows.Add(row);
+                    row = new List<Exercise>();
+                }
+                else if (i == exercises.Count - 1)
+                {
+                    row.Add(exercises[i]);
+                    rows.Add(row);
+                }
+                else
+                {
+                    row.Add(exercises[i]);
+                    currentCount++;
+                }
+            }
+
+            rowcount = Convert.ToString(exercises.Count);
+        }
+
+    }
+    protected override void OnInitialized()
+    {
+        if (UserService.getInstance().CurentUser.Id != 0)
+        {
+            queryParametrs = new List<QueryParametr>();
+
+            var coaches = DBRequest.Select<Coach>("Coaches", new List<QueryParametr> { new QueryParametr($"[UserId]={UserService.getInstance().CurentUser.Id}", Operator.NONE) });
+            if (coaches.Count != 0)
+            {
+                coach = coaches[0];
+                queryParametrs.Add(new QueryParametr($"([CoachId]={coach.Id} or [IsVisible]={1})", Operator.NONE));
+
+            }
+            else
+            {
+                queryParametrs.Add(new QueryParametr($"[IsVisible]={1}", Operator.NONE));
+            }
+
+            exercises = DBRequest.Select<Exercise>("Exercises", queryParametrs);
+
+
+        }
+        else
+            Navigation.NavigateTo("Registration");
+    }
+
+    private void search()
+    {
+        exercises = DBRequest.Select<Exercise>("Exercises", queryParametrs);
+
+    }
+    private void search(string orderString)
+    {
+        exercises = DBRequest.Select<Exercise>("Exercises", queryParametrs,orderString);
+
+    }
+    private async Task SearchChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        Coach queryCoach;
+        searchStr = (string)patharg.Value;
+        string strForQuery = $"[Name]='{searchStr}'";
+        if (!string.IsNullOrEmpty(searchStr))
+        {
+            queryParametrs[0].Operator = Operator.AND;
+            var users = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Login]='{searchStr}'", Operator.NONE) });
+            if (users.Count != 0)
+            {
+                if (users[0].IsCoach)
+                {
+                    queryCoach = DBRequest.Select<Coach>("Coaches", new List<QueryParametr> { new QueryParametr($"[UserId]={users[0].Id}", Operator.NONE) })[0];
+                    strForQuery = $"([Name]='{searchStr}' or [CoachId]={queryCoach.Id})";
+                }
+                
+            }
+            if (queryParametrs.Count >= 2)
+            {
+                queryParametrs.Insert(1, new QueryParametr(strForQuery, Operator.AND));
+            }
+            else
+            {
+                queryParametrs.Add(new QueryParametr(strForQuery, Operator.NONE));
+            }
+
+        }
+        else
+        {
+            if (queryParametrs.Count != 1)
+            {
+                queryParametrs.RemoveAt(1);
+                if(queryParametrs.Count==1)
+                    queryParametrs[queryParametrs.Count - 1].Operator = Operator.NONE;
+                else
+                    queryParametrs[0].Operator = Operator.AND;
+            }
+
+        }
+        search();
+    }
+    private async Task RatingFilterUpdate()
+    {
+        string orderString = "";
+        if (ratingFilter == 0 && dateFilter == 0)
+        {
+            ratingFilter = 1;
+            ratingBtnFilter = '▲';
+            orderString = "(SELECT  AVG(CAST(Rating as float)) FROM [DiplomProject].[dbo].[RatingExercise] where [dbo].[RatingExercise].[ExerciseId]=[dbo].[Exercises].[Id]) ";
+        }
+        else if ((dateFilter == 1 || dateFilter == 2) && ratingFilter == 0)
+        {
+            dateFilter = 0;
+            ratingFilter = 1;
+            dateBtnFilter = '⇕';
+            ratingBtnFilter = '▲';
+            orderString = "(SELECT  AVG(CAST(Rating as float)) FROM [DiplomProject].[dbo].[RatingExercise] where [dbo].[RatingExercise].[ExerciseId]=[dbo].[Exercises].[Id]) ";
+        }
+        else if (ratingFilter == 2)
+        {
+            ratingFilter = 1;
+            ratingBtnFilter = '▲';
+            orderString = "(SELECT  AVG(CAST(Rating as float)) FROM [DiplomProject].[dbo].[RatingExercise] where [dbo].[RatingExercise].[ExerciseId]=[dbo].[Exercises].[Id])";
+        }
+        else
+        {
+            ratingFilter = 2;
+            ratingBtnFilter = '▼';
+            orderString = "(SELECT  AVG(CAST(Rating as float)) FROM [DiplomProject].[dbo].[RatingExercise] where [dbo].[RatingExercise].[ExerciseId]=[dbo].[Exercises].[Id]) desc";
+        }
+        search(orderString);
+    }
+    private async Task DateFilterUpdate()
+    {
+        string orderString = "";
+        if (ratingFilter == 0 && dateFilter == 0)
+        {
+            dateFilter = 1;
+            dateBtnFilter = '▲';
+            orderString = "[DateOfLastUpdate]";
+        }
+        else if ((ratingFilter == 1 || ratingFilter == 2) && dateFilter == 0)
+        {
+            ratingFilter = 0;
+            dateFilter = 1;
+            dateBtnFilter = '▲';
+            ratingBtnFilter = '⇕';
+            orderString = "[DateOfLastUpdate]";
+        }
+        else if (dateFilter == 2)
+        {
+            dateFilter = 1;
+            dateBtnFilter = '▲';
+            orderString = "[DateOfLastUpdate]";
+        }
+        else
+        {
+            dateFilter = 2;
+            dateBtnFilter = '▼';
+            orderString = "[DateOfLastUpdate] desc";
+        }
+        search(orderString);
+    }
+    private async Task IsMineUpdate(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+
+        if (isMine)
+        {
+            isMine = false;
+            if (queryParametrs.Count != 1)
+            {
+                queryParametrs.RemoveAt(queryParametrs.Count - 1);
+                queryParametrs[queryParametrs.Count - 1].Operator = Operator.NONE;
+            }
+        }
+        else
+        {
+            isMine = true;
+            queryParametrs[queryParametrs.Count - 1].Operator = Operator.AND;
+            if (coach != null)
+            {
+                queryParametrs.Add(new QueryParametr($"[CoachId]={coach.Id}", Operator.NONE));
+            }
+            else
+            {
+                queryParametrs.Add(new QueryParametr($"[CoachId]={0}", Operator.NONE));
+            }
+        }
+
+        search();
+    }
+    
+    
+    private void exerciseClick(Exercise e)
+    {
+        Navigation.NavigateTo($"Exercise/{e.Id}");
+    }
+}

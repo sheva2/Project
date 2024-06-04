@@ -1,0 +1,225 @@
+﻿@page "/userpage"
+@page "/userpage/{userId:int}/{isAdmin:bool}"
+@using Project.Data;
+@using System.Text;
+@inject IJSRuntime JsRuntime
+@inject IWebHostEnvironment env
+@inject NavigationManager Navigation
+<div>
+    <h2>Личный кабинет</h2>
+    <form class="user-info-form">
+        
+        @if (isAdmin)
+        {
+            <div class="form-first_block">
+                <span>@(user.Name==" "?"не заполнено":user.Name)</span>
+                <span>@(user.SecondName == " " ? "не заполнено" : user.SecondName)</span>
+                <span>@(user.Patronymic == " " ? "не заполнено" : user.Patronymic)</span>
+            </div>
+            <div class="form-second_block">
+                <span>@(user.TelephoneNumber == " " ? "не заполнено" : user.TelephoneNumber)</span>
+                <span>@user.Email</span>
+                <span>@user.IsCoach</span>
+            </div>
+            <input type="button" value="@btnValue" @onclick="openBlockForm" />
+            @if (isFormOpen)
+            {
+                <div>
+                    
+                    @if (isBlock)
+                    {
+                        <span>@blockedUser.Reason</span>
+                        <span>@blockedUser.Term</span>
+                        <span>@blockedUser.DateOfBlock</span>
+                        <input type="button" value="разблокировать" @onclick="unBlockUser" />
+
+                    }
+                    else{
+                        <input type="text" placeholder="причина" @bind="blockedUser.Reason"/>
+                        <select @bind="blockedUser.Term">
+                        <option value="1">1</option>
+                        <option value="7">7</option>
+                        <option value="3650">3650</option>
+                        </select>
+                        <input type="button" value="заблокировать" @onclick="blockUser"/>
+                    }
+                </div>
+            }
+        }
+        else{
+        <div class="image-block">
+                <img class="avatar-image" src="Avatars/@logoPath" />
+            <InputFile OnChange="OnInputFileChange" ></InputFile>
+        </div>
+            <div style="display:flex; flex-direction:column;">
+            <div style="display:flex; flex-direction:row;">
+                <div class="form-first_block">
+                    <input placeholder="Имя" value="@user.Name" @onchange="NameChanged" />
+                    <input placeholder="Фамилия" value="@user.SecondName" @onchange="SecondNameChanged" />
+                    <input placeholder="Отчество" value="@user.Patronymic" @onchange="PantronymicChanged" />
+                </div>
+                <div class="form-second_block">
+                    <input placeholder="Номер Телефона" value="@user.TelephoneNumber" @onchange="TelephoneNumberChanged" />
+                    <input placeholder="Email" value="@user.Email"/>
+                    <div style="display:flex;flex-direction:row;">Тренер<input type="checkbox" @bind="user.IsCoach" /></div>
+            
+                </div>
+            </div>
+            <input class="save-btn" type="button" value="Сохранить" @onclick="Click" />
+        </div>
+        }
+    </form>
+</div>
+
+@code {
+    [Parameter]
+    public int userId { get; set; } = -1;
+    [Parameter]
+    public bool isAdmin { get; set; } = false;
+    private string logoPath;
+    private bool isFormOpen = false;
+    private bool isBlock=false;
+    private string btnValue = "открыть форму блокировки";
+    BlockedUser? blockedUser;
+    public User? user;
+    private bool emailChanged = false;
+    IReadOnlyList<IBrowserFile> selectedFiles;
+    protected override void OnInitialized()
+    {
+        if (UserService.getInstance().CurentUser.Id != 0)
+        {
+            if (userId != -1 && isAdmin)
+            {
+                user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={userId}", Operator.NONE) })[0];
+                var blockSelect = DBRequest.Select<BlockedUser>("BlockedUsers", new List<QueryParametr> { new QueryParametr($"[UserId]={userId}", Operator.NONE) });
+                if (blockSelect.Count != 0)
+                {
+                    isBlock = true;
+                    blockedUser = blockSelect[0];
+                }
+            }
+            else
+            {
+                user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={UserService.getInstance().CurentUser.Id}", Operator.NONE) })[0];
+                logoPath = DBRequest.Select<Avatar>("Avatars", new List<QueryParametr> { new QueryParametr($"[Id]={user.AvatarId}", Operator.NONE) })[0].Link;
+            }
+        }
+        else
+        {
+            Navigation.NavigateTo("Authorization");
+        }
+    }
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        selectedFiles = e.GetMultipleFiles();
+        this.StateHasChanged();
+    }
+    private async void SaveImage()
+    {
+        int id=-1;
+        if (selectedFiles != null)
+        {
+            if (selectedFiles.Count != 0)
+            {
+                foreach (var file in selectedFiles)
+                {
+
+                    Stream stream = file.OpenReadStream();
+                    Avatar avatar = new Avatar();
+                    var path = $"{env.WebRootPath}\\Avatars\\{user.Id}{file.Name}";
+                    FileStream fs = File.Create(path);
+                    avatar.Link = user.Id.ToString() + file.Name;
+                    id = DBRequest.Insert("Avatars", avatar, true);
+                    if (id != -1)
+                        user.AvatarId = id;
+                    await stream.CopyToAsync(fs);
+                    stream.Close();
+                    fs.Close();
+
+                }
+            }
+        }
+
+    }
+    public void Click()
+    {
+        SaveImage();    
+        Save();
+        //Navigation.NavigateTo("", true);
+    }
+    public void Save()
+    {
+        Coach coach;
+        DBRequest.Update("Users", user);
+        if (user.IsCoach)
+        {
+            var coaches = DBRequest.Select<Coach>("Coaches", new List<QueryParametr> { new QueryParametr($"[UserId]={UserService.getInstance().CurentUser.Id}", Operator.NONE) });
+            if (coaches.Count != 0)
+                coach = coaches[0];
+            else
+            {
+                coach = new Coach();
+                coach.IsReady = true;
+                coach.UserId = user.Id;
+                DBRequest.Insert("Coaches",coach);
+            }
+
+        }
+    }
+    private async Task NameChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        user.Name= (string)patharg.Value;
+    }
+    private async Task SecondNameChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        user.SecondName = (string)patharg.Value;
+    }
+    private async Task PantronymicChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        user.Patronymic = (string)patharg.Value;
+    }
+    private async Task TelephoneNumberChanged(Microsoft.AspNetCore.Components.ChangeEventArgs patharg)
+    {
+        user.TelephoneNumber = (string)patharg.Value;
+    }
+    private void openBlockForm()
+    {
+        if (isFormOpen)
+        {
+            isFormOpen = false;
+            btnValue = "открыть форму блокировки";
+        }
+        else
+        {
+            isFormOpen = true;
+            btnValue = "закрыть форму блокировки";
+            if(!isBlock)
+                blockedUser =  new BlockedUser();
+            this.StateHasChanged();
+        }
+    }
+    private async void blockUser()
+    {
+        Admin admin;
+        MailSendler sendler;
+        if (!string.IsNullOrEmpty(blockedUser.Reason))
+        {
+            admin = DBRequest.Select<Admin>("Admins", new List<QueryParametr> { new QueryParametr($"[UserId]={UserService.getInstance().CurentUser.Id}", Operator.NONE) })[0];
+            blockedUser.UserId = userId;
+            blockedUser.AdminId =admin.Id;
+            blockedUser.DateOfBlock = DateTime.Now;
+            DBRequest.Insert("BlockedUsers",blockedUser);
+
+            sendler = new MailSendler();
+            //await sendler.SendMessage(user.Email, "Блокировка аккуанта", $"Ваш аккуант заблокирован по причине:{blockedUser.Reason} на срок:{blockedUser.Term} дней");
+
+        }
+
+    }
+    private void unBlockUser()
+    {
+        DBRequest.Delete("BlockedUsers", new List<QueryParametr> { new QueryParametr($"[UserId]={userId}", Operator.NONE) });
+        isBlock = false;
+    }
+
+}

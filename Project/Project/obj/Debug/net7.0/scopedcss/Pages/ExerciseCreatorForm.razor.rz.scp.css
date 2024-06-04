@@ -1,0 +1,21 @@
+body[b-v8my622daz] {
+}
+.main-form[b-v8my622daz]{
+    margin-top:12vh;
+    margin-left:25vw;
+    display:flex;
+    flex-direction:column;
+    border: 1px solid black;
+    width: 30vw;
+}
+.name-input[b-v8my622daz]{
+    width:15vw;
+    margin-left:1vw;
+    margin-top:2vh;
+}
+.description-input[b-v8my622daz] {
+    margin-left: 1vw;
+    margin-top: 2vh;
+    width: 25vw;
+    height: 20vh;
+}

@@ -1,0 +1,56 @@
+﻿@inherits LayoutComponentBase
+@using Project.Data;
+@inject UserService userService
+@inject NavigationManager Navigation
+<div class="header">
+    <div class="header-content">
+        
+            <img class="user-logo" src="Avatars/@avatarLink" @onclick="LogoClicked" />
+        
+        <div class="user-name" >
+            @userName
+        </div>
+       
+            <img class ="exit-button" src="listicon.png" @onclick="showMenu"/>
+        
+        
+    </div>
+</div>
+@if(isShow){
+<div class="mobile-menu">
+    <NavMenu/>
+</div>
+}
+@code {
+    [Parameter]
+    public string? userName { get; set; } = "user name";
+    private string avatarLink;
+    private bool isShow=false;
+    protected override void OnInitialized()
+    {
+        if (UserService.getInstance().CurentUser.Id != 0)
+        {
+            avatarLink = DBRequest.Select<Avatar>("Avatars", new List<QueryParametr> { new QueryParametr($"[Id]={UserService.getInstance().CurentUser.AvatarId}", Operator.NONE) })[0].Link;
+        }
+
+
+    }
+    public void showMenu()
+    {
+        if (isShow)
+        {
+            isShow = false;
+        }
+        else
+        {
+            isShow = true;
+        }
+
+    }
+    public void LogoClicked()
+    {
+        if (UserService.getInstance().CurentUser.Email != "")
+            Navigation.NavigateTo("userpage");
+    }
+
+}

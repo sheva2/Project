@@ -1,0 +1,1 @@
+Insert Into dbo.[TrainingProgramms] ([Name],[Description],[Cost],[HardLevel],[ProgrammDuration],[IsVisible],[CoachId],[LogoId]) Values(@Name,@Description,@Cost,@HardLevel,@ProgrammDuration,@IsVisible,@CoachId,@LogoId)  Select @@IDENTITY as [Identity]

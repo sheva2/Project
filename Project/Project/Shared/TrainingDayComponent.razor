@@ -1,0 +1,35 @@
+﻿@using Project.Data;
+@inject NavigationManager navigation;
+<div class="DayComponent-main" >
+    <div class="day_number-block">
+     @day.Number-й день
+    </div>
+    <div class="sessions-block">
+    @foreach (TrainingSession ts in trainings)
+    {
+            <TrainingSessionComponent trainingId="@ts.Id" trainingName="@ts.Name" trainingHardLeve="@ts.HardLevel" key="@key"></TrainingSessionComponent>
+    }
+    </div>
+    @if (key)
+    {
+        <input class="add-button" type="button" value="Add Training" @onclick="click" />
+    }
+</div>
+@code {
+    [Parameter]
+    public int? dayId { get; set; } = 0;
+    [Parameter]
+    public bool key {get; set;}
+
+    private TrainingDay day;
+    private List<TrainingSession> trainings;
+    protected override void OnInitialized()
+    {
+        day = DBRequest.Select<TrainingDay>("TrainingDays", new List<QueryParametr> { new QueryParametr($"[Id]={dayId}", Operator.NONE) })[0];
+        trainings = DBRequest.Select<TrainingSession>("TrainingSession", new List<QueryParametr> { new QueryParametr($"[TrainingDayId]={dayId}", Operator.NONE) });
+    }
+    private void click()
+    {
+        navigation.NavigateTo($"TrainingSessionCreator/{day.Id}/{key}");
+    }
+}

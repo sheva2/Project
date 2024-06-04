@@ -1,0 +1,30 @@
+.coah_only-block[b-p639isj7d4] {
+    display: flex;
+    flex-direction: column;
+    
+}
+.main-form[b-p639isj7d4] {
+    margin-top: 12vh;
+    margin-left: 25vw;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    width: 40vw;
+}
+.name-input[b-p639isj7d4] {
+    width: 15vw;
+    margin-left: 1vw;
+    margin-top: 2vh;
+}
+
+.description-input[b-p639isj7d4] {
+    
+    width: 20vw;
+    height: 20vh;
+}
+.main-content[b-p639isj7d4] {
+    margin-left: 1vw;
+    margin-top: 2vh;
+    display: flex;
+    flex-direction: row;
+}

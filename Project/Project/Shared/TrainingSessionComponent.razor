@@ -1,0 +1,36 @@
+﻿@inject NavigationManager Navigation;
+<div class="sesion-comp-main" style="border-bottom:1px solid black; background-color:white;flex-grow :1;" @onclick="click">
+    <span>@trainingName</span><br/>
+    <span>@hardlevelstring</span>
+</div>
+@code {
+    [Parameter]
+    public int trainingId{ get; set; }
+    [Parameter]
+    public string trainingName { get; set; }
+    [Parameter]
+    public int trainingHardLeve { get; set; }
+    [Parameter]
+    public bool key{ get; set; }
+    private string hardlevelstring;
+    protected override void OnInitialized()
+    {
+        switch (trainingHardLeve)
+        {
+            case 1:
+                hardlevelstring = "Легкая";
+                break;
+            case 2:
+                hardlevelstring = "Средняя";
+                break;
+            case 3:
+                hardlevelstring = "Тяжелая";
+                break;
+        }
+    }
+    private void click()
+    {
+        Navigation.NavigateTo($"TrainingSessionRedactor/{trainingId}/{key}");
+    }
+
+}

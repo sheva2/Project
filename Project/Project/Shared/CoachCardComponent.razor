@@ -1,0 +1,34 @@
+﻿@using Project.Data;
+@inject NavigationManager Navigation
+<div class="card-main"> 
+    <div class="card-top-block">
+        <img class="img-block" src="Avatars/@avatarLink" @onclick="click"/>
+        <div class="login-block">@user.Login</div>
+    </div>
+    <div class="card-bottom-block">
+        @user.SecondName @user.Name @user.Patronymic
+    </div>
+</div>
+@code {
+    [Parameter]
+    public int id{ get; set; }
+    private Coach coach;
+    private User user;
+    private string avatarLink;
+    protected override void OnInitialized()
+    {
+        coach = DBRequest.Select<Coach>("Coaches", new List<QueryParametr> { new QueryParametr($"[Id]={id}", Operator.NONE) })[0];
+        user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={coach.UserId}", Operator.NONE) })[0];
+        avatarLink = DBRequest.Select<Avatar>("Avatars", new List<QueryParametr> { new QueryParametr($"[Id]={user.AvatarId}", Operator.NONE) })[0].Link;
+
+    }
+    private void click()
+    {
+
+        var adminSelect = DBRequest.Select<Admin>("Admins", new List<QueryParametr> { new QueryParametr($"[UserId]={UserService.getInstance().CurentUser.Id}", Operator.NONE) });
+        if (adminSelect.Count != 0)
+        {
+            Navigation.NavigateTo($"userpage/{user.Id}/{true}");
+        }
+    }
+}

@@ -1,0 +1,81 @@
+﻿@using Project.Data;
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        @if (user.Email != "")
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="userpage">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Counter
+                </NavLink>
+            </div>
+            if (user.IsCoach)
+            {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="exercisecreate">
+                    <span class="oi oi-plus" aria-hidden="true"></span>Exercise Create
+                </NavLink>
+
+            </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="programmcreate">
+                        <span class="oi oi-plus" aria-hidden="true"></span>Programm create
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="exercises">
+                        <span class="oi oi-plus" aria-hidden="true"></span>exercises
+                    </NavLink>
+                </div>
+                
+            }
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Programms">
+                    <span class="oi oi-plus" aria-hidden="true"></span>Programms
+                </NavLink>
+            </div>
+        }
+        @if(user.Email==""){
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Registration">
+                <span class="oi oi-list-rich" aria-hidden="true"></span>Fetch
+            </NavLink>
+            </div>
+        }
+        @if (isAdmin)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="usersList">
+                    <span class="oi oi-plus" aria-hidden="true"></span>Users
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Reports">
+                    <span class="oi oi-plus" aria-hidden="true"></span>Users
+                </NavLink>
+            </div>
+        }
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+    private User? user=UserService.getInstance().CurentUser;
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private bool isAdmin = false;
+    protected override void OnInitialized()
+    {
+        user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Email]='{user.Email}'", Operator.NONE) })[0];
+        var adm = DBRequest.Select<Admin>("Admins", new List<QueryParametr> { new QueryParametr($"[UserId]={user.Id}", Operator.NONE) });
+        if (adm.Count != 0)
+            isAdmin = true;
+    }
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

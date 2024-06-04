@@ -1,0 +1,36 @@
+body[b-kh9xjirs2u] {
+}
+.Report-Item[b-kh9xjirs2u]{
+    border:solid 1px black;
+}
+.reported-item[b-kh9xjirs2u]{
+    width:60%;
+    display:flex;
+    flex-direction:column;
+}
+.user-info[b-kh9xjirs2u] {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+    text-align: end;
+}
+user-info h4[b-kh9xjirs2u]{
+    margin-top:2vw;
+}
+.user-info-img[b-kh9xjirs2u] {
+    border-radius: 50%;
+    width: 3vw;
+    height: 6vh;
+}
+.main-content[b-kh9xjirs2u]{
+    display:flex;
+    flex-direction:row;
+    border-bottom:1px solid black;
+}
+.reported-item-img[b-kh9xjirs2u]{
+    width:100%;
+    height:15vh;
+}
+.reported-user[b-kh9xjirs2u]{
+    width:40%;
+}

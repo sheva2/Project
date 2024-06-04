@@ -1,0 +1,30 @@
+﻿@using Project.Data;
+@inject NavigationManager Navigation
+<div class="item">
+    <div class="item-content" @onclick="ItemClick">
+        <div class="item-img"><img class="item-img-img" src="Avatars/@(getAvatarPath())" /></div>
+        <div class="item-text">@(getUserLogin())</div>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public int UserId { get; set; }
+    private User? user;
+    public string getUserLogin()
+    {
+
+        user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={UserId}", Operator.NONE) })[0];
+        return user.Login;
+    }
+    public string getAvatarPath()
+    {
+        user = DBRequest.Select<User>("Users", new List<QueryParametr> { new QueryParametr($"[Id]={UserId}", Operator.NONE) })[0];
+        var avatar = DBRequest.Select<Avatar>("Avatars", new List<QueryParametr> { new QueryParametr($"[Id]={user.AvatarId}", Operator.NONE) });
+        return avatar[0].Link;
+    }
+    private  void ItemClick()
+    {
+        
+        Navigation.NavigateTo($"userPage/{UserId}/{true}");
+    }
+}

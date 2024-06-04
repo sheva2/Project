@@ -1,0 +1,92 @@
+﻿@page "/programmcreate"
+@using Project.Data;
+@inject NavigationManager Navigation
+@inject IWebHostEnvironment env
+<form class="main-form">
+    <input class="name-input" placeholder="Название" @bind="trainingProgramm.Name"/>
+    <div class="main-content">
+        <textarea class="description-input" placeholder="Описание" @bind="trainingProgramm.Description" />
+        <div>
+            <div style="display:flex; flex-direction:row;">
+                <input type="checkbox" @bind="trainingProgramm.IsVisible" />
+                <label>Видимость в общей библиотеке</label>
+            </div>
+    @if (trainingProgramm.IsVisible)
+    {
+            <div class="coah_only-block">
+                <select @bind="trainingProgramm.HardLevel">
+                    <option value="1">новичок</option>
+                    <option value="2">любитель</option>
+                    <option value="3">професионал</option>
+                </select>
+            
+                
+                <input @bind="trainingProgramm.ProgrammDuration"/>
+            </div>
+        
+    }
+        </div>
+    </div>
+    <InputFile OnChange="OnInputFileChange"></InputFile>
+    <input type="button" value="Создать" @onclick="Click" />
+</form>
+
+@code {
+    TrainingProgramm trainingProgramm;
+    private int id;
+
+    private User? user;
+    private Coach? coach;
+    IReadOnlyList<IBrowserFile> selectedFiles;
+    protected override void OnInitialized()
+    {
+        user = UserService.getInstance().CurentUser;
+        trainingProgramm = new TrainingProgramm();
+        trainingProgramm.LogoId = 1;
+    }
+    private void Click()
+    {
+        SaveImage();
+        Add();
+        Navigation.NavigateTo($"RedactProgramm/{id}");
+    }
+    public void Add()
+    {
+
+        coach = DBRequest.Select<Coach>("Coaches", new List<QueryParametr> { new QueryParametr($"[UserId]={user.Id}", Operator.NONE) })[0];
+        trainingProgramm.CoachId = coach.Id;
+        trainingProgramm.Cost = 0;
+        id=DBRequest.Insert("TrainingProgramms",trainingProgramm,true);
+    }
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        selectedFiles = e.GetMultipleFiles();
+        this.StateHasChanged();
+    }
+    private async void SaveImage()
+    {
+        int Logoid = -1;
+        if (selectedFiles != null)
+        {
+            foreach (var file in selectedFiles)
+            {
+
+                Stream stream = file.OpenReadStream();
+                Logo avatar = new Logo();
+                var path = $"{env.WebRootPath}\\Logos\\{user.Id}{file.Name}";
+                FileStream fs = File.Create(path);
+                avatar.PhotoLink = user.Id.ToString() + file.Name;
+                Logoid = DBRequest.Insert("Logo", avatar, true);
+                if (Logoid != -1)
+                {
+                    trainingProgramm.LogoId = Logoid;
+                }
+                await stream.CopyToAsync(fs);
+                stream.Close();
+                fs.Close();
+
+            }
+        }
+
+    }
+}

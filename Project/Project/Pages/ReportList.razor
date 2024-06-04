@@ -1,0 +1,15 @@
+﻿@namespace Project.Data
+@page "/Reports"
+<div class="items_list">
+@foreach (ProgrammReport report in reports)
+{
+    <ReportListComponent reportId="report.Id"></ReportListComponent>
+}
+</div>
+@code {
+    private List<ProgrammReport> reports;
+    protected override void OnInitialized()
+    {
+        reports = DBRequest.Select<ProgrammReport>("ProgrammReports");
+    }
+}

@@ -1,0 +1,21 @@
+﻿body {
+}
+.exercises-table{
+    border:1px solid black;
+    width:20vw;
+}
+th {
+    border: 1px solid black;
+    width: 17vw;
+}
+td {
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+}
+.delete-btn{
+    border-left:1px solid black;
+    width:3vw;
+    background-color:lightgray;
+    cursor:pointer;
+    text-align:center;
+}

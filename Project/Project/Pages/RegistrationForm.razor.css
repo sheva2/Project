@@ -1,0 +1,123 @@
+﻿.authorization-btn{
+    cursor:pointer;
+}
+.form-bottom-btns {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2.2vh;
+    margin-left: 1.6vw;
+}
+.main-form-registration {
+    display: flex;
+    flex-direction: row;
+    width: 26.041vw;
+    height: 32.407vh;
+    border: solid 2px black;
+    border-radius: 25px 25px 25px 25px;
+    margin-left: 25vw;
+    margin-top: 20vh;
+    background-color: whitesmoke;
+}
+.form-sidebar{
+    width:1.302vw;
+    background-color:#000000;
+    text-align:center;
+    
+    color:white;
+}
+.form-input{
+    display:block;
+    margin-top:3vh;
+    margin-left:1.6vw;
+    width:12vw;
+    height:2.4vh;
+    background-color:black;
+    color:white;
+    border-radius:5px;
+}
+.form-button {
+    display: block;
+    margin-left: 10.2vw;
+    width: 7.412vw;
+    height: 4.16vh;
+    border: 1px solid gray;
+    background-color: black;
+    transition-property: color border-radius;
+    transition-duration: 1s;
+    color: gray;
+}
+    .form-button:hover{
+        color:white;
+        border-radius:8px;
+    }
+    .form-main-content {
+    }
+.form-main-content-top {
+    height: 2.15vh;
+    font-family: Tahoma;
+    border-bottom: solid 1px black;
+    width: 25.739vw;
+    text-align: center;
+    font-size: 1em;
+    vertical-align: central;
+}
+@media (min-width:319px) and (max-width:421px) {
+    .main-form-registration {
+        display: flex;
+        flex-direction: row;
+        width: 100.041vw;
+        height: 32.407vh;
+        border: solid 0px black;
+        border-radius: 25px 25px 25px 25px;
+        margin-left: 0vw;
+        margin-top: 15vh;
+        background-color: white;
+    }
+
+    .form-input {
+        display: block;
+        margin-top: 4vh;
+        margin-left: 5vw;
+        width: 90vw;
+        height: 4.4vh;
+        background-color: black;
+        color: white;
+        border-radius: 8px;
+    }
+
+    .form-button {
+        display: block;
+        margin-left: 5vw;
+        margin-top: 5vh;
+        width: 90vw;
+        height: 4.16vh;
+        border: 1px solid gray;
+        background-color: black;
+        transition-property: color border-radius;
+        transition-duration: 1s;
+        color: gray;
+        border-radius: 8px;
+    }
+
+    .form-main-content-top {
+        height: 4.15vh;
+        font-family: Tahoma;
+        border-bottom: solid 1px black;
+        width: 100vw;
+        text-align: center;
+        font-size: 1.4em;
+        vertical-align: central;
+    }
+
+    .form-bottom-btns {
+        display: flex;
+        flex-direction: column-reverse;
+        margin-top: 3.8vh;
+        margin-left: 0vw;
+    }
+
+    .authorization-btn {
+        margin-top: 1vh;
+        margin-left: 68vw;
+    }
+}
